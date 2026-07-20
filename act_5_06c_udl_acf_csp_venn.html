@@ -63,6 +63,42 @@
     color:var(--gold);margin-bottom:16px;
   }
 
+  .venn-svg-wrap{position:relative;}
+  .venn-tooltip{
+    position:absolute;
+    z-index:10;
+    max-width:260px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    box-shadow:0 12px 28px rgba(42,35,29,.16);
+    pointer-events:none;
+    opacity:0;
+    transform:translate(-50%,-100%) translateY(-14px) scale(0.94);
+    transition:opacity .16s ease, transform .16s ease;
+    left:0;top:0;
+  }
+  .venn-tooltip::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-7px;
+    transform:translateX(-50%);
+    width:0;height:0;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:7px solid #fff;
+    filter:drop-shadow(0 3px 2px rgba(42,35,29,.08));
+  }
+  .venn-tooltip.visible{opacity:1;transform:translate(-50%,-100%) translateY(-20px) scale(1);}
+  .venn-tooltip .tt-tag{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    display:block;margin-bottom:5px;
+  }
+  .venn-tooltip .tt-body{font-size:13px;color:var(--ink-soft);line-height:1.45;margin:0;}
+
   .venn-card{
     border:1px solid var(--line);
     background:#fff;
@@ -81,7 +117,7 @@
   .grid{
     margin-top:18px;
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:12px;
   }
   .region{
@@ -104,7 +140,7 @@
     color:var(--ink);
   }
   .region .center-card h4{font-style:italic;}
-  .center-card{grid-column:1 / -1;background:linear-gradient(135deg,var(--udl-tint),var(--acf-tint) 50%,var(--csp-tint));border-color:var(--gold);}
+  .center-card{background:linear-gradient(135deg,var(--udl-tint),var(--acf-tint) 50%,var(--csp-tint));border-color:var(--gold);}
 
   .detail{
     margin-top:18px;
@@ -154,8 +190,7 @@
   footer{margin-top:56px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:20px;}
 
   @media (max-width:700px){
-    .grid{grid-template-columns:1fr;}
-    .center-card{grid-column:auto;}
+    .grid{grid-template-columns:repeat(2,1fr);}
   }
 </style>
 </head>
@@ -164,7 +199,7 @@
 
   <div class="eyebrow">Act 5.06c &nbsp;·&nbsp; UDL, ACF &amp; Culturally Sustaining Pedagogy</div>
   <h1>Where Access Meets Belonging</h1>
-  <p class="sub">Universal Design for Learning, the Anchor Competencies Framework, and culturally sustaining pedagogy get taught as three separate frameworks, but in an actual classroom they lean on each other constantly. Click any region of the diagram below to see how.</p>
+  <p class="sub">Universal Design for Learning, the Anchor Competencies Framework, and culturally sustaining pedagogy usually get taught as three separate frameworks. Inside an actual classroom, they lean on each other constantly.</p>
 
   <svg class="divider" width="100%" height="34" viewBox="0 0 800 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative overlapping circles">
     <circle cx="380" cy="17" r="13" stroke="#3E5C78" stroke-width="1.4" fill="none" opacity="0.5"/>
@@ -174,18 +209,26 @@
 
   <section>
     <span class="module-label">The Three Frameworks, Together</span>
+    <p style="font-size:14.5px;color:var(--ink-soft);margin:-6px 0 20px;">Click a circle in the diagram, or a card below it, to highlight what that framework contributes on its own. Click the center to see where all three meet.</p>
 
     <div class="venn-card">
-      <svg viewBox="0 0 600 460" width="100%" height="auto" style="max-width:480px;display:block;margin:0 auto;">
-        <g style="mix-blend-mode:multiply;">
-          <circle cx="230" cy="200" r="150" fill="#3E5C78" fill-opacity="0.55"/>
-          <circle cx="370" cy="200" r="150" fill="#A24C6B" fill-opacity="0.55"/>
-          <circle cx="300" cy="330" r="150" fill="#6E5A9E" fill-opacity="0.55"/>
-        </g>
-        <text x="130" y="120" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#3E5C78">UDL</text>
-        <text x="430" y="120" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#A24C6B" text-anchor="end">ACF</text>
-        <text x="300" y="430" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#6E5A9E" text-anchor="middle">CSP</text>
+      <div class="venn-svg-wrap" id="vennWrap">
+      <svg viewBox="30 0 500 560" width="100%" height="auto" style="max-width:440px;display:block;margin:0 auto;">
+        <circle cx="230" cy="210" r="150" fill="none" stroke="#3E5C78" stroke-width="1.6" opacity="0.45"/>
+        <circle cx="370" cy="210" r="150" fill="none" stroke="#A24C6B" stroke-width="1.6" opacity="0.45"/>
+        <circle cx="300" cy="340" r="150" fill="none" stroke="#6E5A9E" stroke-width="1.6" opacity="0.45"/>
+
+        <path id="path-udl" d="M 300.0,77.3 L 284.0,70.1 L 270.0,65.4 L 257.5,62.5 L 242.9,60.6 L 228.2,60.0 L 213.5,60.9 L 200.7,62.9 L 186.5,66.5 L 172.6,71.4 L 159.3,77.7 L 148.2,84.3 L 136.3,92.9 L 125.2,102.6 L 115.2,113.4 L 106.3,125.1 L 99.5,136.1 L 92.9,149.2 L 87.6,162.9 L 83.6,177.1 L 81.4,189.8 L 80.2,202.6 L 80.2,217.4 L 81.6,232.0 L 84.5,246.4 L 88.8,260.5 L 94.4,274.1 L 100.4,285.5 L 108.4,297.9 L 117.6,309.4 L 127.9,319.9 L 139.2,329.4 L 150.0,336.9 L 151.6,318.0 L 155.4,300.0 L 161.4,282.6 L 169.5,266.1 L 179.5,250.6 L 191.4,236.6 L 204.8,224.0 L 220.0,213.1 L 220.9,193.5 L 224.5,173.6 L 230.7,154.3 L 239.5,136.1 L 249.5,120.6 L 262.6,105.2 L 272.0,96.4 L 280.6,89.5 L 289.8,83.3 L 300.0,77.3 Z" fill="#3E5C78" fill-opacity="0" pointer-events="all" style="cursor:pointer;transition:fill-opacity .25s ease;"/>
+        <path id="path-acf" d="M 520.0,206.3 L 518.4,188.0 L 514.1,168.2 L 507.9,150.9 L 499.6,134.5 L 488.3,117.7 L 476.1,103.9 L 462.3,91.7 L 445.5,80.4 L 427.4,71.4 L 410.0,65.4 L 392.0,61.6 L 373.7,60.0 L 353.5,60.9 L 335.3,64.1 L 317.7,69.4 L 300.0,77.3 L 317.9,88.4 L 333.4,101.4 L 341.1,109.3 L 348.3,117.7 L 359.6,134.5 L 368.6,152.6 L 375.0,171.8 L 378.9,191.6 L 380.0,213.1 L 395.2,224.0 L 408.6,236.6 L 420.5,250.6 L 430.5,266.1 L 438.6,282.6 L 444.6,300.0 L 448.4,318.0 L 450.0,336.9 L 465.2,326.0 L 479.9,312.1 L 491.6,297.9 L 502.3,280.7 L 509.9,264.0 L 515.9,244.7 L 519.1,226.5 L 520.0,206.3 Z" fill="#A24C6B" fill-opacity="0" pointer-events="all" style="cursor:pointer;transition:fill-opacity .25s ease;"/>
+        <path id="path-csp" d="M 450.0,336.9 L 432.5,346.4 L 413.5,353.5 L 393.8,358.1 L 373.7,360.0 L 353.5,359.1 L 335.3,355.9 L 317.7,350.6 L 300.0,342.7 L 284.0,349.9 L 266.4,355.5 L 248.4,358.9 L 231.8,360.0 L 211.6,358.9 L 200.7,357.1 L 190.0,354.6 L 179.5,351.2 L 169.2,347.1 L 150.0,336.9 L 150.0,343.7 L 151.1,358.4 L 153.6,372.9 L 157.6,387.1 L 162.9,400.8 L 169.5,413.9 L 177.4,426.4 L 186.4,438.0 L 196.6,448.6 L 207.7,458.3 L 219.8,466.7 L 232.6,474.0 L 246.0,479.9 L 260.0,484.6 L 274.4,487.8 L 289.0,489.6 L 303.7,490.0 L 318.4,488.9 L 332.9,486.4 L 347.1,482.4 L 360.8,477.1 L 373.9,470.5 L 386.4,462.6 L 398.0,453.6 L 408.6,443.4 L 418.3,432.3 L 426.7,420.2 L 434.0,407.4 L 439.9,394.0 L 444.6,380.0 L 447.8,365.6 L 449.6,351.0 L 450.0,336.9 Z" fill="#6E5A9E" fill-opacity="0" pointer-events="all" style="cursor:pointer;transition:fill-opacity .25s ease;"/>
+        <path id="path-all" d="M 220.0,213.1 L 220.7,224.7 L 221.9,233.8 L 225.9,251.8 L 229.4,262.3 L 232.9,270.8 L 237.7,280.7 L 242.3,288.7 L 248.4,297.9 L 254.0,305.2 L 261.4,313.4 L 267.9,319.9 L 274.8,326.0 L 283.6,332.6 L 291.3,337.7 L 300.0,342.7 L 308.7,337.7 L 316.4,332.6 L 325.2,326.0 L 332.1,319.9 L 339.9,312.1 L 346.0,305.2 L 351.6,297.9 L 357.7,288.7 L 362.3,280.7 L 367.1,270.8 L 371.2,260.5 L 374.1,251.8 L 376.4,242.9 L 378.4,232.0 L 379.4,222.9 L 380.0,213.1 L 370.7,207.7 L 360.8,202.9 L 350.5,198.8 L 341.8,195.9 L 331.1,193.3 L 320.2,191.4 L 311.0,190.4 L 300.0,190.0 L 289.0,190.4 L 279.8,191.4 L 268.9,193.3 L 258.2,195.9 L 247.7,199.4 L 237.5,203.6 L 224.5,210.4 L 220.0,213.1 Z" fill="#8A5C82" fill-opacity="0" pointer-events="all" style="cursor:pointer;transition:fill-opacity .25s ease;"/>
+
+        <text id="label-udl" x="170" y="180" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="21" fill="#3E5C78" style="cursor:pointer;transition:fill .25s ease;pointer-events:none;">UDL</text>
+        <text id="label-acf" x="430" y="180" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="21" fill="#A24C6B" style="cursor:pointer;transition:fill .25s ease;pointer-events:none;">ACF</text>
+        <text id="label-csp" x="300" y="435" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="21" fill="#6E5A9E" style="cursor:pointer;transition:fill .25s ease;pointer-events:none;">CSP</text>
       </svg>
+      <div class="venn-tooltip" id="vennTooltip"></div>
+      </div>
       <div class="legend">
         <span><i class="swatch" style="background:#3E5C78"></i>UDL — Universal Design for Learning</span>
         <span><i class="swatch" style="background:#A24C6B"></i>ACF — Anchor Competencies Framework</span>
@@ -193,7 +236,7 @@
       </div>
     </div>
 
-    <div class="grid" id="regionGrid">
+    <div class="grid grid4" id="regionGrid">
       <div class="region" data-r="udl">
         <div class="dot-row"><span class="dot" style="background:#3E5C78"></span></div>
         <h4>UDL alone</h4>
@@ -206,18 +249,6 @@
         <div class="dot-row"><span class="dot" style="background:#6E5A9E"></span></div>
         <h4>CSP alone</h4>
       </div>
-      <div class="region" data-r="udl-acf">
-        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#A24C6B"></span></div>
-        <h4>UDL &amp; ACF</h4>
-      </div>
-      <div class="region" data-r="udl-csp">
-        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#6E5A9E"></span></div>
-        <h4>UDL &amp; CSP</h4>
-      </div>
-      <div class="region" data-r="acf-csp">
-        <div class="dot-row"><span class="dot" style="background:#A24C6B"></span><span class="dot" style="background:#6E5A9E"></span></div>
-        <h4>ACF &amp; CSP</h4>
-      </div>
       <div class="region center-card" data-r="all">
         <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#A24C6B"></span><span class="dot" style="background:#6E5A9E"></span></div>
         <h4>Where all three meet</h4>
@@ -229,8 +260,8 @@
   </section>
 
   <div class="goal">
-    <h2>Access alone isn't the goal</h2>
-    <p>A lesson can offer every option UDL calls for and still fall flat if the room hasn't earned a student's trust, or if the options offered don't reflect who that student actually is. The three frameworks are answering three different questions about the same classroom.</p>
+    <h2>Real access needs all three</h2>
+    <p>A lesson can offer every option UDL calls for and still fall flat without a student's trust, or without options that reflect who that student actually is. The three frameworks answer three different questions about the same classroom, and a lesson only fully works when all three answers are in place.</p>
   </div>
 
   <footer>
@@ -244,50 +275,49 @@
     udl: {
       color:'#3E5C78',
       title:'UDL alone',
+      short:'Guidelines that shape how a lesson is presented, how a student responds, and how a student stays engaged, built in from the start.',
       body:'The nine CAST guidelines shape how a lesson is presented, how a student responds to it, and how a student stays engaged with it. This is the flexibility layer, built into the plan before a single student walks in.'
     },
     acf: {
       color:'#A24C6B',
       title:'Anchor Competencies Framework alone',
-      body:'The relational and emotional groundwork underneath a lesson. Trusting relationships, self-reflection, a growth mindset, and the ability to respond constructively across differences. This is what a classroom feels like, underneath whatever it\'s teaching that day.'
+      short:'The relational and emotional groundwork underneath a lesson: trust, self-reflection, growth mindset, and responding well across differences.',
+      body:'The relational and emotional groundwork underneath a lesson. Trusting relationships, self-reflection, a growth mindset, and the ability to respond constructively across differences. These hold the room together no matter what content is being taught that day.'
     },
     csp: {
       color:'#6E5A9E',
       title:'Culturally Sustaining Pedagogy alone',
+      short:'Treating a student\'s home language, culture, and identity as the starting material for a lesson.',
       body:'Treating a student\'s home language, culture, and identity as material to build a lesson on. The starting point is what a student already carries in with them.'
     },
-    'udl-acf': {
-      color:'#6D5470',
-      title:'UDL &amp; Anchor Competencies Framework',
-      body:'Flexibility only gets used if a student trusts the room enough to take the risk it asks for, requesting the read-aloud, choosing the harder option, admitting they\'re stuck. UDL builds the options. ACF is what makes a student willing to reach for one.',
-      classroom:'Offering a calculator or extended time only helps once a student believes asking for it won\'t be held against them.'
-    },
-    'udl-csp': {
-      color:'#5A5B90',
-      title:'UDL &amp; Culturally Sustaining Pedagogy',
-      body:'Multiple means of representation and expression only reach a student when the options offered actually reflect how that student communicates and learns outside of school.',
-      classroom:'A concrete model, like counters before symbols, works because it meets a student where their thinking already starts.'
-    },
-    'acf-csp': {
-      color:'#875A85',
-      title:'Anchor Competencies Framework &amp; Culturally Sustaining Pedagogy',
-      body:'Belonging gets built student by student, through a student\'s specific cultural and family context. Running the same connection script on everyone misses that.',
-      classroom:'Building trust with a newly arrived student starts with learning where they\'re actually coming from, academically and otherwise, before assuming what kind of support fits.'
-    },
     all: {
-      color:'#7A5C82',
+      color:'#8A5C82',
       title:'Where all three meet',
+      short:'Real access, built on trust, in a way that also sustains who the student already is.',
       body:'A classroom that gives every student real access, built on relationships solid enough to make that access usable, in a way that also sustains who the student already is. Remove any one framework and the other two get thinner. Access without trust goes unused. Trust without cultural grounding stays surface-level. Cultural grounding without flexible access still leaves barriers standing.'
     }
   };
 
   const grid = document.getElementById('regionGrid');
   const panel = document.getElementById('detailPanel');
+  const wrap = document.getElementById('vennWrap');
+  const tooltip = document.getElementById('vennTooltip');
+  const pathIds = {udl:'path-udl', acf:'path-acf', csp:'path-csp', all:'path-all'};
+  const labelIds = {udl:'label-udl', acf:'label-acf', csp:'label-csp'};
+  const baseColors = {udl:'#3E5C78', acf:'#A24C6B', csp:'#6E5A9E'};
+  let selectedKey = 'all';
 
   function render(key){
+    selectedKey = key;
     const d = data[key];
     document.querySelectorAll('.region').forEach(r=>r.classList.toggle('active', r.dataset.r===key));
-    let html = '<span class="tag" style="background:'+d.color+'">'+ (key==='all' ? 'UDL · ACF · CSP' : key.toUpperCase().replace('-',' &amp; ')) +'</span>';
+    Object.entries(pathIds).forEach(([k, id])=>{
+      document.getElementById(id).setAttribute('fill-opacity', k===key ? '0.75' : '0');
+    });
+    Object.entries(labelIds).forEach(([k, id])=>{
+      document.getElementById(id).setAttribute('fill', (k===key) ? '#FFFFFF' : baseColors[k]);
+    });
+    let html = '<span class="tag" style="background:'+d.color+'">'+ (key==='all' ? 'UDL · ACF · CSP' : key.toUpperCase()) +'</span>';
     html += '<h3>'+d.title+'</h3><p>'+d.body+'</p>';
     if(d.classroom){
       html += '<div class="classroom"><span class="label">In my classroom</span>'+d.classroom+'</div>';
@@ -295,8 +325,55 @@
     panel.innerHTML = html;
   }
 
+  function tooltipAnchor(key){
+    if(key==='all') return document.getElementById('path-all');
+    return document.getElementById(labelIds[key]);
+  }
+
+  function showTooltip(key){
+    const d = data[key];
+    const anchor = tooltipAnchor(key);
+    const wrapRect = wrap.getBoundingClientRect();
+    const aRect = anchor.getBoundingClientRect();
+    let x = aRect.left + aRect.width/2 - wrapRect.left;
+    let y = aRect.top - wrapRect.top;
+    x = Math.max(70, Math.min(wrapRect.width - 70, x));
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.innerHTML = '<span class="tt-tag" style="color:'+d.color+'">'+ (key==='all' ? 'UDL · ACF · CSP' : key.toUpperCase()) +'</span><p class="tt-body">'+d.short+'</p>';
+    tooltip.classList.add('visible');
+  }
+
+  function hideTooltip(){
+    tooltip.classList.remove('visible');
+  }
+
   grid.querySelectorAll('.region').forEach(r=>{
     r.addEventListener('click', ()=> render(r.dataset.r));
+    r.addEventListener('mouseenter', ()=> showTooltipNearCard(r));
+    r.addEventListener('mouseleave', hideTooltip);
+  });
+
+  function showTooltipNearCard(cardEl){
+    const key = cardEl.dataset.r;
+    showTooltip(key);
+  }
+
+  Object.entries(pathIds).forEach(([k, id])=>{
+    const el = document.getElementById(id);
+    el.addEventListener('click', ()=> render(k));
+    el.addEventListener('mouseenter', ()=>{
+      if(k !== selectedKey) el.setAttribute('fill-opacity', '0.5');
+      if(labelIds[k]) document.getElementById(labelIds[k]).setAttribute('fill', '#FFFFFF');
+      showTooltip(k);
+    });
+    el.addEventListener('mouseleave', ()=>{
+      if(k !== selectedKey){
+        el.setAttribute('fill-opacity', '0');
+        if(labelIds[k]) document.getElementById(labelIds[k]).setAttribute('fill', baseColors[k]);
+      }
+      hideTooltip();
+    });
   });
 
   render('all');
