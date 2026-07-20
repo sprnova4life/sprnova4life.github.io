@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UDL 3.0 Graphic Organizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF6EC;
+    --paper:#F3EEE0;
+    --ink:#2A231D;
+    --ink-soft:#5B5248;
+    --emerald:#2F5D50;
+    --emerald-tint:#E4EEE9;
+    --sapphire:#2E4A66;
+    --sapphire-tint:#E3E9EF;
+    --amethyst:#5B3F63;
+    --amethyst-tint:#EBE3EC;
+    --garnet:#7A3245;
+    --gold:#B08D4F;
+    --line: rgba(42,35,29,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:50px 26px 80px;}
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--garnet);
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--garnet);display:inline-block;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(30px,5vw,44px);
+    margin:12px 0 14px;
+    letter-spacing:-.01em;
+  }
+  .sub{font-size:16.5px;color:var(--ink-soft);max-width:74ch;margin-bottom:6px;}
+
+  .goalbar{
+    margin-top:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:var(--ink);
+    color:var(--bg);
+    border-radius:12px;
+    padding:20px 24px;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+  }
+  .goalbar span{color:var(--gold);font-family:'Work Sans', sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px;}
+
+  .grid{
+    margin-top:34px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .col{
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+  }
+  .col-head{
+    padding:20px 20px 16px;
+    color:#fff;
+  }
+  .col.engagement .col-head{background:var(--emerald);}
+  .col.representation .col-head{background:var(--sapphire);}
+  .col.expression .col-head{background:var(--amethyst);}
+  .col-head .tag{font-family:'Work Sans', sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.8;display:block;margin-bottom:4px;}
+  .col-head h3{font-family:'Fraunces',serif;font-size:21px;margin:0 0 6px;font-weight:600;}
+  .col-head p{margin:0;font-size:13.5px;opacity:.92;}
+
+  .row{
+    padding:18px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  .row:last-child{border-bottom:none;}
+  .row .gnum{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:14px;
+    display:inline-block;
+    margin-bottom:4px;
+  }
+  .col.engagement .gnum{color:var(--emerald);}
+  .col.representation .gnum{color:var(--sapphire);}
+  .col.expression .gnum{color:var(--amethyst);}
+  .row h4{margin:0 0 6px;font-size:15px;color:var(--ink);}
+  .row p{margin:0 0 10px;font-size:13.5px;color:var(--ink-soft);}
+  .note{
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:8px;
+    line-height:1.45;
+  }
+  .col.engagement .note{background:var(--emerald-tint);color:#20443A;}
+  .col.representation .note{background:var(--sapphire-tint);color:#213850;}
+  .col.expression .note{background:var(--amethyst-tint);color:#432E49;}
+  .note .label{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:3px;
+    opacity:.75;
+  }
+
+  .terms{
+    margin-top:44px;
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    background:var(--paper);
+    border-radius:2px;
+    padding:22px 26px;
+  }
+  .terms .tag{
+    font-family:'Work Sans', sans-serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+    display:block;margin-bottom:8px;
+  }
+  .terms h3{font-family:'Fraunces',serif;font-size:19px;margin:0 0 10px;}
+  .terms p{margin:0;font-size:14.5px;color:var(--ink);max-width:78ch;}
+
+  footer{
+    margin-top:50px;
+    font-size:13px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:20px;
+  }
+
+  @media (max-width:880px){
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">UDL 3.0 &nbsp;·&nbsp; Graphic Organizer</div>
+  <h1>Designing to the Edges: UDL 3.0 at a Glance</h1>
+  <p class="sub">Building on the terminology from Act 5.01, this organizer maps CAST's nine guidelines across the three principles of UDL, with a note under each guideline connecting it to what that support already looks like in my classroom.</p>
+
+  <div class="goalbar">
+    <div>
+      <span>The Goal of UDL</span>
+      Learner agency: purposeful &amp; reflective, resourceful &amp; authentic, strategic &amp; action-oriented
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="col engagement">
+      <div class="col-head">
+        <span class="tag">Principle · The Why</span>
+        <h3>Engagement</h3>
+        <p>Guidelines 7–9</p>
+      </div>
+      <div class="row">
+        <span class="gnum">7 · Welcoming Interests &amp; Identities</span>
+        <p>Choice, relevance, joy, and fewer needless threats or distractions.</p>
+        <div class="note"><span class="label">In my classroom</span>Individualized, self-paced work already builds in choice of pace and sequence for every student across both houses.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">8 · Sustaining Effort &amp; Persistence</span>
+        <p>Clear goals, matched challenge, real collaboration, belonging, feedback that moves work forward.</p>
+        <div class="note"><span class="label">In my classroom</span>Extension work for a student like C who has met the objective and needs the ceiling raised.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">9 · Emotional Capacity</span>
+        <p>Self-awareness, reflection, and empathy built into how the class runs.</p>
+        <div class="note"><span class="label">In my classroom</span>One-on-one re-engagement when I catch a student disengaging while circulating, rather than waiting for it to surface as a behavior issue.</div>
+      </div>
+    </div>
+
+    <div class="col representation">
+      <div class="col-head">
+        <span class="tag">Principle · The How of Input</span>
+        <h3>Representation</h3>
+        <p>Guidelines 1–3</p>
+      </div>
+      <div class="row">
+        <span class="gnum">1 · Perception</span>
+        <p>More than one way to physically take in the same information.</p>
+        <div class="note"><span class="label">In my classroom</span>Preferential seating and graphic organizers for a student with dyscalculia, alongside a calculator for the computation itself.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">2 · Language &amp; Symbols</span>
+        <p>Clarifying vocabulary and notation, honoring more than one language.</p>
+        <div class="note"><span class="label">In my classroom</span>Concrete counters, yellow and purple jelly beans, before introducing the abstract symbols of integer addition.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">3 · Building Knowledge</span>
+        <p>Connecting new content to what a student already carries in with them.</p>
+        <div class="note"><span class="label">In my classroom</span>Regrounding a student in the zero-pair concept with counters before introducing a number line as a second model of the same idea.</div>
+      </div>
+    </div>
+
+    <div class="col expression">
+      <div class="col-head">
+        <span class="tag">Principle · The How of Output</span>
+        <h3>Action &amp; Expression</h3>
+        <p>Guidelines 4–6</p>
+      </div>
+      <div class="row">
+        <span class="gnum">4 · Interaction</span>
+        <p>More than one way to respond, navigate, and move through a task.</p>
+        <div class="note"><span class="label">In my classroom</span>Extended time built into a student's IEP so the pace of a task doesn't stand in for the pace of their thinking.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">5 · Expression &amp; Communication</span>
+        <p>Multiple media and tools available for producing the finished work.</p>
+        <div class="note"><span class="label">In my classroom</span>A student can show a solved problem with counters, a drawn number line, or written notation, whichever demonstrates the thinking most clearly.</div>
+      </div>
+      <div class="row">
+        <span class="gnum">6 · Strategy Development</span>
+        <p>Goal setting, planning ahead for obstacles, monitoring one's own progress.</p>
+        <div class="note"><span class="label">In my classroom</span>Checking in with a newly arrived student on where they are academically before assuming what level of independence they can manage.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="terms">
+    <span class="tag">Connecting to Act 5.01 Terminology</span>
+    <h3>UDL is proactive. Accommodations and modifications are individual.</h3>
+    <p>UDL is how a lesson is built from the start so it already has room for the range of learners in front of me. Accommodations change how a student accesses that lesson, such as extended time or a calculator, without changing what they're expected to know. Modifications change the expectation itself. Under IDEA, the goal of the Least Restrictive Environment is to keep a student in the setting where accommodations, not modifications, are enough to reach the same standard as their peers.</p>
+  </div>
+
+  <footer>
+    Act. 5.06b — UDL 3.0 Graphic Organizer, building on the terminology from Act 5.01 · CAST UDL Guidelines 3.0
+  </footer>
+
+</div>
+</body>
+</html>

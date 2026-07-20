@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing to the Edges: UDL 3.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF6EC;
+    --paper:#F3EEE0;
+    --ink:#2A231D;
+    --ink-soft:#5B5248;
+    --emerald:#2F5D50;
+    --emerald-tint:#E4EEE9;
+    --sapphire:#2E4A66;
+    --sapphire-tint:#E3E9EF;
+    --amethyst:#5B3F63;
+    --amethyst-tint:#EBE3EC;
+    --garnet:#7A3245;
+    --gold:#B08D4F;
+    --line: rgba(42,35,29,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:56px 28px 90px;}
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--garnet);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;background:var(--garnet);display:inline-block;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px,6vw,54px);
+    line-height:1.05;
+    margin:14px 0 18px;
+    letter-spacing:-.01em;
+  }
+  .sub{
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:60ch;
+    margin-bottom:8px;
+  }
+  .curbcut{
+    margin:36px 0 10px;
+    display:block;
+  }
+  section{margin-top:64px;}
+  h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:28px;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  p{margin:0 0 14px;color:var(--ink-soft);}
+  .law{
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-left:4px solid var(--gold);
+    padding:22px 24px;
+    border-radius:2px;
+    margin-top:22px;
+  }
+  .law .tag{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+    display:block;
+  }
+  .law p{color:var(--ink);font-size:15px;margin:0;}
+
+  /* Tabs */
+  .tabbar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:0;
+  }
+  .tab{
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:12px 18px;
+    border-radius:10px 10px 0 0;
+    border:1px solid var(--line);
+    border-bottom:none;
+    background:#fff;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab[data-p="engagement"].active{background:var(--emerald);color:#fff;border-color:var(--emerald);}
+  .tab[data-p="representation"].active{background:var(--sapphire);color:#fff;border-color:var(--sapphire);}
+  .tab[data-p="expression"].active{background:var(--amethyst);color:#fff;border-color:var(--amethyst);}
+  .panels{
+    border:1px solid var(--line);
+    border-radius:0 10px 10px 10px;
+    background:#fff;
+    padding:28px;
+  }
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .panel .why{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .panel[data-p="engagement"] .why{color:var(--emerald);}
+  .panel[data-p="representation"] .why{color:var(--sapphire);}
+  .panel[data-p="expression"] .why{color:var(--amethyst);}
+  .glist{display:grid;gap:14px;margin-top:18px;}
+  .gitem{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:14px 16px;
+    border-radius:8px;
+  }
+  .panel[data-p="engagement"] .gitem{background:var(--emerald-tint);}
+  .panel[data-p="representation"] .gitem{background:var(--sapphire-tint);}
+  .panel[data-p="expression"] .gitem{background:var(--amethyst-tint);}
+  .gnum{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:22px;
+    min-width:30px;
+  }
+  .panel[data-p="engagement"] .gnum{color:var(--emerald);}
+  .panel[data-p="representation"] .gnum{color:var(--sapphire);}
+  .panel[data-p="expression"] .gnum{color:var(--amethyst);}
+  .gitem strong{display:block;font-size:15.5px;color:var(--ink);margin-bottom:3px;}
+  .gitem span{font-size:14px;color:var(--ink-soft);}
+
+  /* Try it interactive */
+  .scenario{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:12px;
+    cursor:pointer;
+    background:#fff;
+    transition:box-shadow .15s ease;
+  }
+  .scenario:hover{box-shadow:0 4px 14px rgba(42,35,29,.08);}
+  .scenario .q{font-weight:600;font-size:15.5px;}
+  .scenario .a{
+    display:none;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+  .scenario.open .a{display:block;}
+  .scenario .hint{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-top:8px;
+    display:inline-block;
+  }
+  .badge{
+    display:inline-block;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.06em;
+    padding:3px 9px;
+    border-radius:20px;
+    margin-top:8px;
+    color:#fff;
+  }
+  .badge.e{background:var(--emerald);}
+  .badge.r{background:var(--sapphire);}
+  .badge.x{background:var(--amethyst);}
+
+  .goal{
+    text-align:center;
+    padding:46px 30px;
+    background:var(--ink);
+    color:var(--bg);
+    border-radius:14px;
+    margin-top:70px;
+  }
+  .goal h2{color:#fff;font-size:24px;}
+  .goal p{color:#E4DDCC;max-width:56ch;margin:0 auto;}
+  .goal .three{
+    display:flex;justify-content:center;gap:22px;flex-wrap:wrap;
+    margin-top:22px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .goal .three span{color:var(--gold);}
+  footer{
+    margin-top:60px;
+    font-size:13px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:20px;
+  }
+  @media (max-width:600px){
+    .tabbar{overflow-x:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">UDL 3.0 &nbsp;·&nbsp; A Learning Object for Teachers</div>
+  <h1>Designing to the Edges</h1>
+  <p class="sub">A curb cut was built for wheelchairs. Now it carries strollers, delivery carts, rolling suitcases, and tired knees. Universal Design for Learning starts from the same premise. Design the lesson for the edges of the room, and the whole room moves through it more easily.</p>
+
+  <svg class="curbcut" width="100%" height="90" viewBox="0 0 800 90" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a curb cut ramp">
+    <rect x="0" y="60" width="800" height="6" fill="#B08D4F" opacity="0.35"/>
+    <path d="M0 60 L260 60 L360 30 L800 30" stroke="#7A3245" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="360" cy="30" r="5" fill="#7A3245"/>
+    <circle cx="260" cy="60" r="5" fill="#7A3245"/>
+  </svg>
+
+  <section id="what">
+    <h2>What UDL actually means</h2>
+    <p>Universal Design for Learning is a framework for planning a lesson so the full range of learners in the room can access it from the start, rather than a plan built for one imagined average student and patched afterward for everyone else. It gives students more than one way to take in information, more than one way to show what they know, and more than one way to stay engaged with the work, while the standard the class is working toward stays exactly as rigorous.</p>
+    <p>Researcher Todd Rose makes the case that "average" was never a real learner to begin with. The U.S. Air Force once redesigned cockpits around the average pilot's measurements and found that not one pilot in the fleet actually matched those dimensions. A classroom built around an average student runs into the same problem. Nobody sits exactly there.</p>
+    <div class="law">
+      <span class="tag">It's the Law — Higher Education Act, 2008</span>
+      <p>Universal Design for Learning means a scientifically valid framework for guiding educational practice that (a) provides flexibility in the ways information is presented, in the ways students respond or demonstrate knowledge and skills, and in the ways students are engaged, and (b) reduces barriers in instruction, provides appropriate accommodations, supports, and challenges, and maintains high achievement expectations for all students, including students with disabilities and students who are limited English proficient.</p>
+    </div>
+  </section>
+
+  <section id="principles">
+    <h2>Three ways in</h2>
+    <p>CAST organizes the UDL Guidelines 3.0 around three questions a lesson has to answer: why should a student care, how will the content reach them, and how will they act on it. Click through each principle below.</p>
+
+    <div class="tabbar">
+      <div class="tab active" data-p="engagement">Engagement — the Why</div>
+      <div class="tab" data-p="representation">Representation — the How of Input</div>
+      <div class="tab" data-p="expression">Action &amp; Expression — the How of Output</div>
+    </div>
+
+    <div class="panels">
+      <div class="panel active" data-p="engagement">
+        <span class="why">Guidelines 7–9</span>
+        <p>Motivation is not a fixed trait a student walks in with. It is something a lesson can either build or drain.</p>
+        <div class="glist">
+          <div class="gitem"><span class="gnum">7</span><div><strong>Welcoming Interests &amp; Identities</strong><span>Choice, relevance, joy, and fewer needless threats or distractions in the room.</span></div></div>
+          <div class="gitem"><span class="gnum">8</span><div><strong>Sustaining Effort &amp; Persistence</strong><span>Clear goals, the right level of challenge, real collaboration, a sense of belonging, feedback that moves work forward.</span></div></div>
+          <div class="gitem"><span class="gnum">9</span><div><strong>Emotional Capacity</strong><span>Building self-awareness, reflection, and empathy directly into how the class runs.</span></div></div>
+        </div>
+      </div>
+      <div class="panel" data-p="representation">
+        <span class="why">Guidelines 1–3</span>
+        <p>The same idea can travel to a student through print, sound, image, or hands-on material. Representation is about giving it more than one route in.</p>
+        <div class="glist">
+          <div class="gitem"><span class="gnum">1</span><div><strong>Perception</strong><span>More than one way to physically take in the same information.</span></div></div>
+          <div class="gitem"><span class="gnum">2</span><div><strong>Language &amp; Symbols</strong><span>Clarifying vocabulary and notation, and honoring more than one language in the room.</span></div></div>
+          <div class="gitem"><span class="gnum">3</span><div><strong>Building Knowledge</strong><span>Connecting new content to what a student already carries in with them.</span></div></div>
+        </div>
+      </div>
+      <div class="panel" data-p="expression">
+        <span class="why">Guidelines 4–6</span>
+        <p>A student's grasp of a concept and a student's ability to prove it on one specific format are two different things. This principle keeps those separate.</p>
+        <div class="glist">
+          <div class="gitem"><span class="gnum">4</span><div><strong>Interaction</strong><span>More than one way to respond, navigate, and move through a task.</span></div></div>
+          <div class="gitem"><span class="gnum">5</span><div><strong>Expression &amp; Communication</strong><span>Multiple media and tools available for producing the finished work.</span></div></div>
+          <div class="gitem"><span class="gnum">6</span><div><strong>Strategy Development</strong><span>Goal setting, planning ahead for obstacles, and monitoring one's own progress.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="try">
+    <h2>Try it: name the barrier</h2>
+    <p>Click a classroom moment to see which UDL principle addresses it.</p>
+
+    <div class="scenario">
+      <div class="q">A student stares at the word problem for ten minutes and never picks up a pencil.</div>
+      <div class="a">This is often a <strong>Representation</strong> barrier before it is a motivation problem. The math is locked inside dense text. Pairing the word problem with a diagram, a manipulative, or a read-aloud option gives the same content a second way in.<span class="badge r">Representation</span></div>
+    </div>
+    <div class="scenario">
+      <div class="q">A student finishes the assignment in four minutes and asks what's next, every day.</div>
+      <div class="a">This is a <strong>Sustaining Effort &amp; Persistence</strong> gap. The task's ceiling is too low. Building in an extension, a harder variation, or a choice of depth keeps the challenge matched to the student instead of the average pace of the room.<span class="badge e">Engagement</span></div>
+    </div>
+    <div class="scenario">
+      <div class="q">A student knows the content cold in conversation but the written test score doesn't show it.</div>
+      <div class="a">This is an <strong>Action &amp; Expression</strong> barrier. The test format, not the student's understanding, is what's being measured. Offering an oral response option or a different way to demonstrate mastery separates the content from the format.<span class="badge x">Action &amp; Expression</span></div>
+    </div>
+
+  </section>
+
+  <div class="goal">
+    <h2>The goal was never compliance</h2>
+    <p>UDL isn't a checklist to complete once and move past. It's a lens for planning every lesson, aimed at one outcome: learner agency.</p>
+    <div class="three">
+      <span>Purposeful &amp; Reflective</span>
+      <span>Resourceful &amp; Authentic</span>
+      <span>Strategic &amp; Action-Oriented</span>
+    </div>
+  </div>
+
+  <footer>
+    Act. 5.06a — Designing to the Edges: Universal Design for Learning · CAST UDL Guidelines 3.0
+  </footer>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector('.panel[data-p="'+tab.dataset.p+'"]').classList.add('active');
+    });
+  });
+  document.querySelectorAll('.scenario').forEach(s=>{
+    s.addEventListener('click', ()=> s.classList.toggle('open'));
+  });
+</script>
+</body>
+</html>

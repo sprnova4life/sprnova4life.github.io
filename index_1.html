@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Coffron — Coursework Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF3F1;
+    --paper:#F5E6E2;
+    --ink:#3D2B32;
+    --ink-soft:#7C5E67;
+    --rose:#A9527A;
+    --rose-tint:#F3E1EA;
+    --mauve:#8C5A8F;
+    --mauve-tint:#EFE2EE;
+    --lilac:#6E5A9E;
+    --lilac-tint:#E9E4F3;
+    --gold:#C79A5E;
+    --line: rgba(61,43,50,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:64px 30px 100px;}
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--rose);
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:1px;background:var(--gold);display:inline-block;
+  }
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(38px,6.5vw,58px);
+    line-height:1.05;
+    margin:16px 0 18px;
+    letter-spacing:.005em;
+    color:var(--ink);
+  }
+  .sub{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+
+  .ribbon{margin:42px 0 6px;display:block;}
+
+  section{margin-top:64px;}
+  .module-label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .module-label svg{flex-shrink:0;}
+
+  .card{
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:#fff;
+    padding:24px 26px;
+    margin-bottom:16px;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:18px;
+    text-decoration:none;
+    color:inherit;
+    box-shadow:0 1px 2px rgba(61,43,50,.03);
+    transition:box-shadow .18s ease, transform .18s ease;
+  }
+  .card:hover{box-shadow:0 10px 26px rgba(169,82,122,.12);transform:translateY(-2px);}
+  .card .body{flex:1;}
+  .card .tag{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .card.a .tag{background:var(--rose-tint);color:var(--rose);}
+  .card.b .tag{background:var(--mauve-tint);color:var(--mauve);}
+  .card h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .card p{margin:0;font-size:14.5px;color:var(--ink-soft);}
+  .arrow{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:24px;
+    color:var(--gold);
+    padding-top:6px;
+    flex-shrink:0;
+  }
+
+  .empty{
+    border:1px dashed var(--line);
+    border-radius:22px;
+    padding:26px;
+    font-size:14px;
+    color:var(--ink-soft);
+    text-align:center;
+    background:var(--paper);
+  }
+
+  footer{
+    margin-top:64px;
+    font-size:13px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:22px;
+    font-style:italic;
+    font-family:'Cormorant Garamond', serif;
+    font-size:16px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">CalStateTEACH Credential Coursework</div>
+  <h1>Nova Coffron</h1>
+  <p class="sub">A running record of assignments, lesson frames, and digital deliverables built across the credential program. Organized by module as the work is completed.</p>
+
+  <svg class="ribbon" width="100%" height="46" viewBox="0 0 800 46" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative flowing line">
+    <path d="M0 23 C 120 4, 220 42, 340 23 C 460 4, 560 42, 680 23 C 730 14, 770 14, 800 23" stroke="#C79A5E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <circle cx="340" cy="23" r="3.5" fill="#A9527A"/>
+    <circle cx="680" cy="23" r="3.5" fill="#8C5A8F"/>
+  </svg>
+
+  <section>
+    <span class="module-label">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1 C 8 3, 8 4, 7 5 C 6 4, 6 3, 7 1 Z M7 5 C 9 5, 11 6, 12 8 C 10 8.5, 8.5 8, 7 6.5 C 5.5 8, 4 8.5, 2 8 C 3 6, 5 5, 7 5 Z" fill="#C79A5E"/></svg>
+      Module 5 · Designing to the Edges — UDL 3.0
+    </span>
+
+    <a class="card a" href="act_5_06a_udl_learning_object.html">
+      <div class="body">
+        <span class="tag">Act 5.06a</span>
+        <h3>UDL 3.0 Learning Object</h3>
+        <p>An interactive introduction to Universal Design for Learning built for a teacher with no prior background. Curb cut framing, the HEA 2008 definition, all three principles as clickable tabs, and a short self-check activity.</p>
+      </div>
+      <span class="arrow">&#8594;</span>
+    </a>
+
+    <a class="card b" href="act_5_06b_udl_graphic_organizer.html">
+      <div class="body">
+        <span class="tag">Act 5.06b</span>
+        <h3>UDL 3.0 Graphic Organizer</h3>
+        <p>All nine CAST guidelines mapped across the three principles, with a classroom note under each one connecting it to current practice, building on the terminology from Act 5.01.</p>
+      </div>
+      <span class="arrow">&#8594;</span>
+    </a>
+  </section>
+
+  <section>
+    <span class="module-label">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1 C 8 3, 8 4, 7 5 C 6 4, 6 3, 7 1 Z M7 5 C 9 5, 11 6, 12 8 C 10 8.5, 8.5 8, 7 6.5 C 5.5 8, 4 8.5, 2 8 C 3 6, 5 5, 7 5 Z" fill="#C79A5E"/></svg>
+      Coming up
+    </span>
+    <div class="empty">Future modules will appear here as they're completed.</div>
+  </section>
+
+  <footer>
+    novacoffron.github.io &middot; CalStateTEACH Credential Program
+  </footer>
+
+</div>
+</body>
+</html>
