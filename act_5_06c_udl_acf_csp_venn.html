@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Access Meets Belonging — UDL, ACF &amp; CSP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF6EC;
+    --paper:#F3EEE0;
+    --ink:#2A231D;
+    --ink-soft:#5B5248;
+    --udl:#3E5C78;
+    --udl-tint:#E5EAF1;
+    --acf:#A24C6B;
+    --acf-tint:#F4E2E8;
+    --csp:#6E5A9E;
+    --csp-tint:#EAE3F3;
+    --gold:#B08D4F;
+    --line: rgba(42,35,29,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:56px 28px 96px;}
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--acf);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);display:inline-block;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:clamp(32px,5.5vw,50px);
+    line-height:1.08;
+    margin:14px 0 18px;
+    letter-spacing:-.005em;
+  }
+  .sub{font-size:17px;color:var(--ink-soft);max-width:64ch;}
+
+  .divider{margin:38px 0 8px;display:block;}
+
+  section{margin-top:56px;}
+  .module-label{
+    display:flex;align-items:center;gap:9px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:16px;
+  }
+
+  .venn-card{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:20px;
+    padding:30px 20px 14px;
+  }
+  .legend{
+    display:flex;gap:20px;flex-wrap:wrap;justify-content:center;
+    margin-top:6px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;font-size:12.5px;
+  }
+  .legend span{display:flex;align-items:center;gap:7px;}
+  .swatch{width:11px;height:11px;border-radius:50%;display:inline-block;}
+
+  .grid{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  .region{
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#fff;
+    padding:16px 18px;
+    cursor:pointer;
+    transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .region:hover{box-shadow:0 8px 20px rgba(42,35,29,.08);transform:translateY(-2px);}
+  .region.active{border-color:var(--gold);box-shadow:0 8px 22px rgba(176,141,79,.18);}
+  .region .dot-row{display:flex;gap:5px;margin-bottom:8px;}
+  .region .dot{width:9px;height:9px;border-radius:50%;}
+  .region h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15.5px;
+    margin:0;
+    color:var(--ink);
+  }
+  .region .center-card h4{font-style:italic;}
+  .center-card{grid-column:1 / -1;background:linear-gradient(135deg,var(--udl-tint),var(--acf-tint) 50%,var(--csp-tint));border-color:var(--gold);}
+
+  .detail{
+    margin-top:18px;
+    border-radius:20px;
+    padding:26px 28px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    min-height:80px;
+  }
+  .detail .tag{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+    display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:12px;color:#fff;
+  }
+  .detail h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:22px;
+    margin:0 0 10px;
+  }
+  .detail p{margin:0 0 10px;color:var(--ink-soft);font-size:15px;}
+  .detail .classroom{
+    font-size:13.5px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .detail .classroom .label{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--gold);display:block;margin-bottom:4px;
+  }
+
+  .goal{
+    text-align:center;
+    padding:44px 30px;
+    background:var(--ink);
+    color:var(--bg);
+    border-radius:22px;
+    margin-top:64px;
+  }
+  .goal h2{font-family:'Fraunces',serif;font-style:italic;font-weight:600;color:#fff;font-size:23px;margin:0 0 10px;}
+  .goal p{color:#E4DDCC;max-width:58ch;margin:0 auto;}
+
+  footer{margin-top:56px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:20px;}
+
+  @media (max-width:700px){
+    .grid{grid-template-columns:1fr;}
+    .center-card{grid-column:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Act 5.06c &nbsp;·&nbsp; UDL, ACF &amp; Culturally Sustaining Pedagogy</div>
+  <h1>Where Access Meets Belonging</h1>
+  <p class="sub">Universal Design for Learning, the Anchor Competencies Framework, and culturally sustaining pedagogy get taught as three separate frameworks, but in an actual classroom they lean on each other constantly. Click any region of the diagram below to see how.</p>
+
+  <svg class="divider" width="100%" height="34" viewBox="0 0 800 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative overlapping circles">
+    <circle cx="380" cy="17" r="13" stroke="#3E5C78" stroke-width="1.4" fill="none" opacity="0.5"/>
+    <circle cx="400" cy="17" r="13" stroke="#A24C6B" stroke-width="1.4" fill="none" opacity="0.5"/>
+    <circle cx="390" cy="9" r="13" stroke="#6E5A9E" stroke-width="1.4" fill="none" opacity="0.5"/>
+  </svg>
+
+  <section>
+    <span class="module-label">The Three Frameworks, Together</span>
+
+    <div class="venn-card">
+      <svg viewBox="0 0 600 460" width="100%" height="auto" style="max-width:480px;display:block;margin:0 auto;">
+        <g style="mix-blend-mode:multiply;">
+          <circle cx="230" cy="200" r="150" fill="#3E5C78" fill-opacity="0.55"/>
+          <circle cx="370" cy="200" r="150" fill="#A24C6B" fill-opacity="0.55"/>
+          <circle cx="300" cy="330" r="150" fill="#6E5A9E" fill-opacity="0.55"/>
+        </g>
+        <text x="130" y="120" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#3E5C78">UDL</text>
+        <text x="430" y="120" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#A24C6B" text-anchor="end">ACF</text>
+        <text x="300" y="430" font-family="Fraunces, serif" font-weight="600" font-size="19" fill="#6E5A9E" text-anchor="middle">CSP</text>
+      </svg>
+      <div class="legend">
+        <span><i class="swatch" style="background:#3E5C78"></i>UDL — Universal Design for Learning</span>
+        <span><i class="swatch" style="background:#A24C6B"></i>ACF — Anchor Competencies Framework</span>
+        <span><i class="swatch" style="background:#6E5A9E"></i>CSP — Culturally Sustaining Pedagogy</span>
+      </div>
+    </div>
+
+    <div class="grid" id="regionGrid">
+      <div class="region" data-r="udl">
+        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span></div>
+        <h4>UDL alone</h4>
+      </div>
+      <div class="region" data-r="acf">
+        <div class="dot-row"><span class="dot" style="background:#A24C6B"></span></div>
+        <h4>ACF alone</h4>
+      </div>
+      <div class="region" data-r="csp">
+        <div class="dot-row"><span class="dot" style="background:#6E5A9E"></span></div>
+        <h4>CSP alone</h4>
+      </div>
+      <div class="region" data-r="udl-acf">
+        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#A24C6B"></span></div>
+        <h4>UDL &amp; ACF</h4>
+      </div>
+      <div class="region" data-r="udl-csp">
+        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#6E5A9E"></span></div>
+        <h4>UDL &amp; CSP</h4>
+      </div>
+      <div class="region" data-r="acf-csp">
+        <div class="dot-row"><span class="dot" style="background:#A24C6B"></span><span class="dot" style="background:#6E5A9E"></span></div>
+        <h4>ACF &amp; CSP</h4>
+      </div>
+      <div class="region center-card" data-r="all">
+        <div class="dot-row"><span class="dot" style="background:#3E5C78"></span><span class="dot" style="background:#A24C6B"></span><span class="dot" style="background:#6E5A9E"></span></div>
+        <h4>Where all three meet</h4>
+      </div>
+    </div>
+
+    <div class="detail" id="detailPanel"></div>
+
+  </section>
+
+  <div class="goal">
+    <h2>Access alone isn't the goal</h2>
+    <p>A lesson can offer every option UDL calls for and still fall flat if the room hasn't earned a student's trust, or if the options offered don't reflect who that student actually is. The three frameworks are answering three different questions about the same classroom.</p>
+  </div>
+
+  <footer>
+    Act. 5.06c — Venn Diagram: UDL, Anchor Competencies Framework &amp; Culturally Sustaining Pedagogy
+  </footer>
+
+</div>
+
+<script>
+  const data = {
+    udl: {
+      color:'#3E5C78',
+      title:'UDL alone',
+      body:'The nine CAST guidelines shape how a lesson is presented, how a student responds to it, and how a student stays engaged with it. This is the flexibility layer, built into the plan before a single student walks in.'
+    },
+    acf: {
+      color:'#A24C6B',
+      title:'Anchor Competencies Framework alone',
+      body:'The relational and emotional groundwork underneath a lesson. Trusting relationships, self-reflection, a growth mindset, and the ability to respond constructively across differences. This is what a classroom feels like, underneath whatever it\'s teaching that day.'
+    },
+    csp: {
+      color:'#6E5A9E',
+      title:'Culturally Sustaining Pedagogy alone',
+      body:'Treating a student\'s home language, culture, and identity as material to build a lesson on. The starting point is what a student already carries in with them.'
+    },
+    'udl-acf': {
+      color:'#6D5470',
+      title:'UDL &amp; Anchor Competencies Framework',
+      body:'Flexibility only gets used if a student trusts the room enough to take the risk it asks for, requesting the read-aloud, choosing the harder option, admitting they\'re stuck. UDL builds the options. ACF is what makes a student willing to reach for one.',
+      classroom:'Offering a calculator or extended time only helps once a student believes asking for it won\'t be held against them.'
+    },
+    'udl-csp': {
+      color:'#5A5B90',
+      title:'UDL &amp; Culturally Sustaining Pedagogy',
+      body:'Multiple means of representation and expression only reach a student when the options offered actually reflect how that student communicates and learns outside of school.',
+      classroom:'A concrete model, like counters before symbols, works because it meets a student where their thinking already starts.'
+    },
+    'acf-csp': {
+      color:'#875A85',
+      title:'Anchor Competencies Framework &amp; Culturally Sustaining Pedagogy',
+      body:'Belonging gets built student by student, through a student\'s specific cultural and family context. Running the same connection script on everyone misses that.',
+      classroom:'Building trust with a newly arrived student starts with learning where they\'re actually coming from, academically and otherwise, before assuming what kind of support fits.'
+    },
+    all: {
+      color:'#7A5C82',
+      title:'Where all three meet',
+      body:'A classroom that gives every student real access, built on relationships solid enough to make that access usable, in a way that also sustains who the student already is. Remove any one framework and the other two get thinner. Access without trust goes unused. Trust without cultural grounding stays surface-level. Cultural grounding without flexible access still leaves barriers standing.'
+    }
+  };
+
+  const grid = document.getElementById('regionGrid');
+  const panel = document.getElementById('detailPanel');
+
+  function render(key){
+    const d = data[key];
+    document.querySelectorAll('.region').forEach(r=>r.classList.toggle('active', r.dataset.r===key));
+    let html = '<span class="tag" style="background:'+d.color+'">'+ (key==='all' ? 'UDL · ACF · CSP' : key.toUpperCase().replace('-',' &amp; ')) +'</span>';
+    html += '<h3>'+d.title+'</h3><p>'+d.body+'</p>';
+    if(d.classroom){
+      html += '<div class="classroom"><span class="label">In my classroom</span>'+d.classroom+'</div>';
+    }
+    panel.innerHTML = html;
+  }
+
+  grid.querySelectorAll('.region').forEach(r=>{
+    r.addEventListener('click', ()=> render(r.dataset.r));
+  });
+
+  render('all');
+</script>
+</body>
+</html>
