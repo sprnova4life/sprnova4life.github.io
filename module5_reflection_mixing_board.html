@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 Reflection · Session Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b1815;
+    --bg-vignette: radial-gradient(ellipse at 50% -10%, #2a251f 0%, #1b1815 55%);
+    --panel:#3b2f26;
+    --panel-light:#4a3c30;
+    --panel-dark:#2b221b;
+    --brass:#c9a24b;
+    --brass-light:#e3c877;
+    --brass-dark:#8f7233;
+    --cream:#ece3d0;
+    --cream-dim:#c9bfa8;
+    --meter-red:#b1463a;
+    --meter-amber:#c9a24b;
+    --meter-green:#5f8a6a;
+    --wood:#5a4633;
+    --wood-dark:#42331f;
+    --shadow: rgba(0,0,0,0.55);
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background: var(--bg-vignette), var(--bg);
+    color: var(--cream);
+    font-family:'Source Serif 4', serif;
+    line-height:1.6;
+    padding: 32px 20px 80px;
+  }
+
+  .label{
+    font-family:'Oswald', sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* ---------- Nameplate ---------- */
+  .nameplate{
+    max-width: 760px;
+    margin: 0 auto 40px;
+    text-align:center;
+  }
+  .nameplate .eyebrow{
+    font-size: 11px;
+    color: var(--brass-light);
+    letter-spacing: 0.28em;
+    margin-bottom: 14px;
+  }
+  .nameplate h1{
+    font-family:'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: clamp(22px, 3.6vw, 34px);
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin: 0 0 16px;
+    line-height:1.3;
+  }
+  .nameplate .question{
+    font-style: italic;
+    font-size: 17px;
+    color: var(--cream-dim);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .brass-rule{
+    width: 120px;
+    height: 3px;
+    margin: 22px auto 0;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+  }
+
+  /* ---------- Console ---------- */
+  .console{
+    max-width: 920px;
+    margin: 0 auto;
+    background:
+      linear-gradient(180deg, var(--panel-light) 0%, var(--panel) 8%, var(--panel) 92%, var(--panel-dark) 100%);
+    border-radius: 10px;
+    padding: 34px 28px 24px;
+    box-shadow:
+      0 30px 60px var(--shadow),
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      inset 0 -2px 8px rgba(0,0,0,0.4);
+    position: relative;
+    border: 1px solid #241c15;
+  }
+
+  .screw{
+    position:absolute;
+    width: 12px; height:12px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #d9bd7a, var(--brass-dark) 70%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.6), inset 0 0 2px rgba(0,0,0,0.5);
+  }
+  .screw::after{
+    content:"";
+    position:absolute; top:50%; left:15%;
+    width:70%; height:1.5px;
+    background: rgba(0,0,0,0.5);
+    transform: rotate(35deg);
+  }
+  .screw.tl{top:14px; left:14px;} .screw.tr{top:14px; right:14px;}
+  .screw.bl{bottom:14px; left:14px;} .screw.br{bottom:14px; right:14px;}
+
+  .console-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin: 0 4px 26px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .console-head .title{
+    font-size:13px;
+    color: var(--brass-light);
+  }
+  .console-head .sub{
+    font-size:11px;
+    color: var(--cream-dim);
+    opacity:0.75;
+  }
+
+  .rack{
+    display:flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .channel{
+    width: 126px;
+    background: linear-gradient(180deg, #453729, #382b20);
+    border-radius: 6px;
+    padding: 16px 8px 14px;
+    border: 1px solid #241c15;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 6px 14px rgba(0,0,0,0.35);
+    text-align:center;
+  }
+
+  .channel .readout{
+    font-size: 11px;
+    color: var(--meter-amber);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .fader-track{
+    position: relative;
+    height: 190px;
+    margin: 0 auto 12px;
+    width: 34px;
+    background: linear-gradient(90deg, #17110b, #2a2117 40%, #17110b);
+    border-radius: 4px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+  }
+
+  .fader-track::before{
+    content:"";
+    position:absolute;
+    left:50%; top:8px; bottom:8px;
+    width:2px;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(180deg, var(--brass-dark) 0 1px, transparent 1px 10px);
+    opacity: 0.7;
+  }
+
+  input[type=range].fader{
+    writing-mode: vertical-lr;
+    direction: rtl;
+    -webkit-appearance: slider-vertical;
+    width: 34px;
+    height: 190px;
+    margin:0;
+    position:absolute;
+    top:0; left:0;
+    background: transparent;
+    cursor: grab;
+  }
+  input[type=range].fader:active{ cursor: grabbing; }
+
+  input[type=range].fader::-webkit-slider-runnable-track{
+    background: transparent;
+    width: 4px;
+  }
+  input[type=range].fader::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width: 44px;
+    height: 22px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #e6c988, var(--brass) 45%, var(--brass-dark));
+    border: 1px solid #7a5f28;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.4);
+    cursor: grab;
+    margin-left: -5px;
+  }
+  input[type=range].fader::-moz-range-track{
+    background: transparent;
+    width: 4px;
+  }
+  input[type=range].fader::-moz-range-thumb{
+    width: 44px;
+    height: 22px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #e6c988, var(--brass) 45%, var(--brass-dark));
+    border: 1px solid #7a5f28;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.6);
+    cursor: grab;
+  }
+
+  .plate{
+    background: linear-gradient(180deg, #d8bd7e, var(--brass) 55%, var(--brass-dark));
+    color: #2b1f0d;
+    border-radius: 3px;
+    padding: 9px 6px 8px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 3px rgba(0,0,0,0.4);
+    min-height: 48px;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    gap: 3px;
+  }
+  .plate-name{
+    font-family:'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .plate-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 8.5px;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: #4a3620;
+    opacity: 0.85;
+    line-height: 1.2;
+  }
+
+  .channel.active .plate{
+    background: linear-gradient(180deg, #f0dca0, var(--brass-light) 55%, var(--brass));
+  }
+  .channel.active{
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 1px var(--brass-light), 0 6px 14px rgba(0,0,0,0.35);
+  }
+
+  /* ---------- Output bay: meter + log ---------- */
+  .output-bay{
+    margin-top: 28px;
+    display:flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .meter-box{
+    flex: 0 0 200px;
+    background: linear-gradient(180deg, #221a12, #16110b);
+    border-radius: 6px;
+    padding: 14px;
+    border: 1px solid #0f0b07;
+    text-align:center;
+  }
+  .meter-box .cap{
+    font-size:10px;
+    color: var(--cream-dim);
+    letter-spacing:0.16em;
+    margin-bottom: 6px;
+  }
+
+  .log-card{
+    flex: 1 1 320px;
+    background: #ede4cf;
+    color: #2b241a;
+    border-radius: 2px;
+    padding: 18px 20px;
+    position: relative;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.4);
+    transform: rotate(-0.6deg);
+    min-height: 118px;
+  }
+  .log-card::before{
+    content:"";
+    position:absolute; top:-8px; left: 24px;
+    width: 34px; height:16px;
+    background: rgba(201,162,75,0.55);
+    border: 1px solid rgba(143,114,51,0.6);
+  }
+  .log-card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: #7a6a44;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    display:block;
+  }
+  .log-card p{
+    margin:0;
+    font-size: 15.5px;
+    line-height:1.55;
+  }
+
+  /* ---------- Track notes ---------- */
+  .notes{
+    max-width: 760px;
+    margin: 56px auto 0;
+  }
+  .notes-head{
+    text-align:center;
+    margin-bottom: 26px;
+  }
+  .notes-head .label{
+    font-size: 12px;
+    color: var(--brass-light);
+  }
+
+  .track{
+    display:flex;
+    gap: 18px;
+    padding: 20px 4px;
+    border-bottom: 1px solid rgba(201,162,75,0.18);
+  }
+  .track:last-child{ border-bottom:none; }
+
+  .track-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--brass-light);
+    flex: 0 0 32px;
+    padding-top: 3px;
+  }
+
+  .track-body h3{
+    font-family:'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--cream);
+    margin: 0 0 8px;
+    text-transform: none;
+  }
+  .track-body p{
+    margin: 0 0 8px;
+    color: var(--cream-dim);
+    font-size: 16px;
+  }
+  .track-body p:last-child{ margin-bottom:0; }
+
+  footer{
+    text-align:center;
+    margin-top: 50px;
+    font-size: 11px;
+    color: var(--cream-dim);
+    opacity:0.6;
+    letter-spacing:0.08em;
+  }
+
+  @media (max-width:600px){
+    .rack{ gap: 8px; }
+    .channel{ width: 30%; padding: 12px 6px 10px; }
+    .fader-track, input[type=range].fader{ height: 150px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nameplate">
+  <div class="eyebrow mono">Module 5 · Session Notes</div>
+  <h1>How do you best adapt your practice, based on students' learning diversity, ways of being and knowing, linguistic, literate, cultural, and otherwise?</h1>
+  <div class="brass-rule"></div>
+</div>
+
+<div class="console">
+  <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
+  <div class="console-head">
+    <div class="title label">Adaptation Console</div>
+    <div class="sub mono">five channels &nbsp;·&nbsp; drag a fader to hear it</div>
+  </div>
+
+  <div class="rack" id="rack">
+    <!-- channels injected by JS -->
+  </div>
+
+  <div class="output-bay">
+    <div class="meter-box">
+      <div class="cap label">Balance</div>
+      <svg viewBox="0 0 200 120" width="100%">
+        <path d="M20,110 A80,80 0 0,1 180,110" fill="none" stroke="#2a2117" stroke-width="14"/>
+        <path d="M20,110 A80,80 0 0,1 70,35" fill="none" stroke="#5a2e28" stroke-width="14"/>
+        <path d="M70,35 A80,80 0 0,1 130,35" fill="none" stroke="#4a5a3e" stroke-width="14"/>
+        <path d="M130,35 A80,80 0 0,1 180,110" fill="none" stroke="#5a2e28" stroke-width="14"/>
+        <line id="needle" x1="100" y1="110" x2="100" y2="42" stroke="#e3c877" stroke-width="3" stroke-linecap="round" style="transform-origin:100px 110px;"/>
+        <circle cx="100" cy="110" r="6" fill="#c9a24b" stroke="#3b2f26" stroke-width="1.5"/>
+      </svg>
+      <div class="mono" id="meter-label" style="font-size:11px;color:var(--cream-dim);margin-top:4px;">matched</div>
+    </div>
+
+    <div class="log-card">
+      <span class="tag">ENGINEER'S LOG · CHANNEL 01 · REPRESENTATION</span>
+      <p id="log-text">Two formats connected on purpose. A concrete model comes first, then a second representation extends it rather than replacing it.</p>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <div class="notes-head">
+    <div class="label">Track Notes</div>
+  </div>
+
+  <div class="track">
+    <div class="track-num">01</div>
+    <div class="track-body">
+      <h3>The experience that impacted me the most</h3>
+      <p>Stephen Tonti's TEDx talk on ADHD stood out most clearly this module. He describes the space between knowing what to do and actually being able to start it. His description gave me a different account of behavior I had previously described as task avoidance.</p>
+      <p>What looked like resistance is often the space between intention and action. Building an accommodation around this idea changes what I do for the student in front of me.</p>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-num">02</div>
+    <div class="track-body">
+      <h3>How the history of special education still shapes the present</h3>
+      <p>The earliest special education laws in this country guaranteed access to a room. They did not guarantee the quality of instruction happening inside it. This history still shows up as speed. A diagnosis often reaches a teacher before the student does, and it can settle into the whole account of who that student is before any actual teaching has happened.</p>
+      <p>A label carries information, and I use it. A label describes the access a student needs. It does not describe her capacity. Those are two separate facts, and I keep them separate on purpose.</p>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-num">03</div>
+    <div class="track-body">
+      <h3>High expectations for every student, including those with disabilities and those developing academic English</h3>
+      <p>An IEP or a 504 plan describes the access a student needs to reach a standard. It does not lower the standard. Students who need heavier support and students who need more challenge often sit in the same room, and both groups need instruction built for where they actually are.</p>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-num">04</div>
+    <div class="track-body">
+      <h3>What "universal" actually means in UDL</h3>
+      <p>Universal does not mean identical. It means a lesson gets built from the first draft to work across the actual range of students in the room, rather than built for the middle of the room with accommodations added afterward for whoever falls outside it.</p>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-num">05</div>
+    <div class="track-body">
+      <h3>Questions this module surfaced</h3>
+      <p>Two questions are still open for me. The first is how to build in peer structure once group dynamics actually support it, since the safer default is always teacher-directed work. The second is where individualized pacing turns into isolation. Self-paced instruction is the entire design of this program, and it should not mean working alone.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="mono">SESSION 5 · TALLAC / RUBY HOUSE · ROP</footer>
+
+<script>
+const channels = [
+  {
+    id: 1,
+    name: "Representation",
+    sub: "how it reaches them",
+    tiers: [
+      "One format only. It works for whichever student already thinks in that format and stops working the moment the room needs anything else.",
+      "Two formats connected on purpose. A concrete model comes first, then a second representation extends it rather than replacing it.",
+      "Every format running at once. Constant scaffolding slows down a student who no longer needs it and buries the content itself."
+    ]
+  },
+  {
+    id: 2,
+    name: "Engagement",
+    sub: "what sustains it",
+    tiers: [
+      "Compliance is the plan. A worksheet with no room for choice loses students fast in a self-paced classroom.",
+      "Choice built inside a fixed structure. A student decides how much of a personal example to bring into the work while the assignment itself stays the same.",
+      "Novelty for its own sake. Entertaining briefly, unsustainable once the actual content has to get covered."
+    ]
+  },
+  {
+    id: 3,
+    name: "Expression",
+    sub: "how they show it",
+    tiers: [
+      "One accepted format for showing understanding, regardless of what a student's plan says about how she demonstrates it.",
+      "A few formats. Written, spoken directly to me, or built with an organizer, with the same standard behind each one.",
+      "So many formats offered that the content gets lost inside the packaging."
+    ]
+  },
+  {
+    id: 4,
+    name: "Pacing",
+    sub: "how long a step takes",
+    tiers: [
+      "One shared clock for the whole room, regardless of what any individual accommodation requires.",
+      "Each house moves at its own rate already. A pre-teach where it is needed, extension work where it is earned, without anyone waiting on anyone else.",
+      "No shared clock at all. Individualized pacing without any common rhythm turns into isolation."
+    ]
+  },
+  {
+    id: 5,
+    name: "Language",
+    sub: "words around content",
+    tiers: [
+      "Instructions built on the assumption that every student arrives with the same vocabulary and the same history with school.",
+      "Sentence frames, graphic organizers, and structured seating do work because they make the content reachable, regardless of the label attached to a student's file.",
+      "So much scaffolding language surrounding the content that the math or the science underneath becomes difficult to find."
+    ]
+  }
+];
+
+const rack = document.getElementById('rack');
+const values = {};
+
+channels.forEach(ch => {
+  values[ch.id] = 5;
+  const div = document.createElement('div');
+  div.className = 'channel';
+  div.id = 'channel-' + ch.id;
+  div.innerHTML = `
+    <div class="readout mono" id="readout-${ch.id}">05</div>
+    <div class="fader-track">
+      <input type="range" class="fader" id="fader-${ch.id}" min="0" max="10" value="5" data-id="${ch.id}">
+    </div>
+    <div class="plate">
+      <span class="plate-name">${ch.name}</span>
+      <span class="plate-sub">${ch.sub}</span>
+    </div>
+  `;
+  rack.appendChild(div);
+});
+
+const needle = document.getElementById('needle');
+const meterLabel = document.getElementById('meter-label');
+const logText = document.getElementById('log-text');
+const logTag = document.querySelector('.log-card .tag');
+
+function tierFor(v){
+  if (v <= 3) return 0;
+  if (v <= 7) return 1;
+  return 2;
+}
+
+function updateMeter(){
+  const vals = Object.values(values);
+  const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
+  // map 0-10 avg to -80deg .. +80deg
+  const angle = -80 + (avg/10)*160;
+  needle.style.transform = `rotate(${angle}deg)`;
+  const spread = Math.max(...vals) - Math.min(...vals);
+  if (avg < 3 || avg > 7 || spread > 8){
+    meterLabel.textContent = avg > 7 ? "overcorrecting" : (avg < 3 ? "underserved" : "uneven");
+  } else {
+    meterLabel.textContent = "matched";
+  }
+}
+
+let audioCtx = null;
+let lastTone = 0;
+
+function ensureAudio(){
+  if (!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  if (audioCtx && audioCtx.state === 'suspended'){
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playTone(ch, value){
+  const now = performance.now();
+  if (now - lastTone < 55) return; // throttle so dragging doesn't buzz
+  lastTone = now;
+
+  const ctx = ensureAudio();
+  if (!ctx) return;
+
+  const baseFreq = [220, 262, 294, 330, 392][(ch.id - 1) % 5];
+  const freq = baseFreq * (0.7 + (value/10) * 0.9);
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+
+  const t = ctx.currentTime;
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.linearRampToValueAtTime(0.13, t + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t);
+  osc.stop(t + 0.18);
+}
+
+channels.forEach(ch => {
+  const input = document.getElementById('fader-' + ch.id);
+  const readout = document.getElementById('readout-' + ch.id);
+  input.addEventListener('input', (e) => {
+    const v = parseInt(e.target.value, 10);
+    values[ch.id] = v;
+    readout.textContent = String(v).padStart(2,'0');
+
+    document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+    document.getElementById('channel-' + ch.id).classList.add('active');
+
+    logTag.textContent = `ENGINEER'S LOG · CHANNEL 0${ch.id} · ${ch.name.toUpperCase()}`;
+    logText.textContent = ch.tiers[tierFor(v)];
+
+    playTone(ch, v);
+    updateMeter();
+  });
+});
+
+updateMeter();
+</script>
+
+</body>
+</html>
