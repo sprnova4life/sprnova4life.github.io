@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Module 6 Reflection · Nova Coffron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Literata:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EFEAE0;
+    --paper-card: #F7F3EA;
+    --paper-tab: #E3DCC9;
+    --ink: #2B2A28;
+    --ink-soft: #5b5650;
+    --gold: #B8901E;
+    --gold-bg: #F0DFA6;
+    --forest: #3F5B48;
+    --forest-bg: #DCE6DD;
+    --brick: #8B3A3A;
+    --brick-bg: #EAD6D2;
+    --line: rgba(43,42,40,0.18);
+    --shadow: 0 10px 24px rgba(43,42,40,0.14);
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(43,42,40,0.05) 1px, transparent 1px) 0 0/22px 22px,
+      var(--paper);
+    color: var(--ink);
+    font-family: 'Literata', serif;
+    line-height: 1.6;
+    padding: 40px 20px 80px;
+  }
+
+  .wrap{ max-width: 940px; margin: 0 auto; }
+
+  .banner{
+    position: relative;
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 34px 36px 30px;
+    margin-bottom: 34px;
+  }
+  .banner::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background: repeating-linear-gradient(90deg, var(--brick) 0 26px, transparent 26px 34px);
+    opacity:.55;
+  }
+  .stamp{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:1.5px;
+    color: var(--brick);
+    border: 1.5px solid var(--brick);
+    padding: 4px 10px;
+    transform: rotate(-2deg);
+    text-transform: uppercase;
+  }
+  h1{
+    font-family:'Special Elite', monospace;
+    font-weight:400;
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 16px 0 6px;
+    letter-spacing: 0.5px;
+  }
+  .subline{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .eq{
+    font-family:'Literata', serif;
+    font-style: italic;
+    font-size: 16.5px;
+    border-left: 3px solid var(--gold);
+    padding: 4px 0 4px 16px;
+    color: var(--ink);
+    margin: 4px 0;
+  }
+  .eq b{ font-style: normal; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:1px; color:var(--gold); display:block; margin-bottom:4px; text-transform:uppercase; }
+
+  .banner-note{
+    margin-top: 18px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+
+  .tabs{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tab{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.3px;
+    background: var(--paper-tab);
+    border: 1px solid var(--line);
+    border-bottom: none;
+    color: var(--ink-soft);
+    padding: 10px 16px 9px;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab:hover{ color: var(--ink); }
+  .tab.active{
+    background: var(--paper-card);
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: 0 -2px 0 var(--gold) inset;
+  }
+
+  .panel{
+    display:none;
+    background: var(--paper-card);
+    border: 1px solid var(--line);
+    border-top: none;
+    box-shadow: var(--shadow);
+    padding: 30px 34px 34px;
+    margin-bottom: 36px;
+  }
+  .panel.active{ display:block; }
+
+  .file-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--forest);
+    background: var(--forest-bg);
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+
+  .panel h2{
+    font-family:'Special Elite', monospace;
+    font-weight: 400;
+    font-size: 22px;
+    margin: 0 0 14px;
+  }
+  .panel .reflection-text{
+    font-size: 15.5px;
+    max-width: 680px;
+    margin-bottom: 22px;
+  }
+  .panel .reflection-text p{ margin: 0 0 12px; }
+  .panel .reflection-text p:last-child{ margin-bottom: 0; }
+
+  .aha-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tiles{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .tile{
+    perspective: 1200px;
+    height: 110px;
+    cursor: pointer;
+  }
+  .tile-inner{
+    position:relative;
+    width:100%; height:100%;
+    transform-style: preserve-3d;
+    transition: transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .tile.flipped .tile-inner{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    display:flex; flex-direction:column;
+    justify-content: space-between;
+  }
+  .front{ background: var(--paper); }
+  .front .prompt-label{
+    font-family:'Special Elite', monospace;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .front .flip-hint{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .back{
+    background: var(--gold-bg);
+    transform: rotateY(180deg);
+    justify-content: center;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+
+  .capstone{
+    background: var(--brick-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+  }
+  .capstone .file-tag{ background: var(--paper-card); color: var(--brick); }
+  .capstone h2{
+    font-family:'Special Elite', monospace;
+    font-weight: 400;
+    font-size: 22px;
+    margin: 6px 0 18px;
+  }
+  .capstone .block{ margin-bottom: 20px; }
+  .capstone .block:last-child{ margin-bottom: 0; }
+  .capstone .block-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--brick);
+    margin-bottom: 6px;
+  }
+  .capstone .block p{ font-size: 15px; margin: 0 0 10px; max-width: 700px; }
+  .capstone .block p:last-child{ margin-bottom: 0; }
+
+  footer{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 640px){
+    .banner{ padding: 26px 20px 22px; }
+    .panel{ padding: 22px 18px 26px; }
+    .capstone{ padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner">
+    <span class="stamp">Case File · Module 6</span>
+    <h1>Module 6 Reflection</h1>
+    <div class="subline">MODULE 6 REFLECTION · CalStateTEACH · ROP</div>
+    <div class="eq"><b>Essential Question</b>How can teachers foster an equitable learning environment to support all students from diverse cultural backgrounds?</div>
+    <div class="eq"><b>Module Question</b>How does culturally sustaining pedagogy inform implementation of all the elements of an effective learning community?</div>
+    <p class="banner-note">This reflection takes the form of an interactive field notebook: six case files, one for each angle Module 6 covered, closing with a capstone file that answers the essential and module questions directly.</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+  <div id="panels"></div>
+
+  <div class="capstone">
+    <span class="file-tag">Capstone File</span>
+    <h2>Closing the Case</h2>
+
+    <div class="block">
+      <div class="block-label">Essential Question</div>
+      <p>An equitable classroom starts with reading a student as a full person before reading her file. My individualized, self-paced model allows this: no student is measured against a single pace or a single format for showing what she knows. Trust comes first for a student who arrives mid-year with a county placement and a stack of documentation from a district she left behind. Format does the differentiation: fill-in notes, line-matching, and game structures keep a range of learners active despite heavy writing demands. Equity in my classroom looks like structure organized around the individual.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Module Question</div>
+      <p>Culturally sustaining pedagogy runs through every element this module covered, community, capital, engagement, language, because all four apply to the same student at once. Community relies on trust in place before content instruction starts. Capital means recognizing what a student brings that a placement file does not capture. Engagement calls for material that reflects a student's own culture rather than material that distantly references it. Language means treating a student's home language as a working tool for approaching content. A single interaction with a student usually involves all four at once.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What Impacted Me Most</div>
+      <p>The idea with the most impact on me this module was the warm demander stance: care and clear expectations balanced so students regulate themselves out of care for the relationship. I have felt strongly about this balance for years and applied it across many parts of my life. Seeing it defined as a specific stance, with research behind why it works and concrete ways to apply it, gives me the tools to be intentional about something instinctual for me.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Mindset, Toolset, Skill Set</div>
+      <p>My mindset did not change. I held the belief that equity requires seeing the student ahead of the file before entering this program, and management experience has taught me a group's dynamic can shift quickly if someone disengages. What changed is my toolset. I can now identify funds of knowledge, forms of capital, and anchor competencies, including the warm demander stance, as the specific mechanisms behind decisions I once called only instinct. My skill set changed least of the three: circulating, differentiating by format, and establishing trust before content were my practice before this credential program; however, I have refined those skills and understand the "why" behind them with far more depth.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Questions Still Open</div>
+      <p>Two questions are still open. The first: can I design a full math or science lesson on the actual logic of hip hop, sampling and rhythm used directly for pattern recognition, rather than referencing the culture from outside it? The second: how do I reach a student with a complex self-esteem picture before an IEP is finalized, when most of the tools available to me depend on documentation still in progress?</p>
+    </div>
+  </div>
+
+  <footer>MODULE 6 · REFLECTION · sprnova4life.github.io</footer>
+</div>
+
+<script>
+const sections = [
+  {
+    id: "community",
+    tag: "File 1",
+    title: "Trust Before Content",
+    text: [
+      "Sharroky Hollie frames culturally responsive teaching as something a teacher holds in everything she does. My classroom runs on that principle. The individualized, self-paced structure lets me circulate constantly, reading who is present and who has lost interest.",
+      "Fill-in notes, line-matching, and game formats keep my students active, since heavy writing demands shut some of them down fast. A student who arrives mid-year to an unfamiliar place, carrying a pattern of feeling unwanted and unseen, needs trust before content instruction can do anything. The first weeks of placement earn that trust."
+    ],
+    tiles: [
+      { label:"Trust vs. Content", back:"Content instruction has no effect until trust comes first." },
+      { label:"Format as Access", back:"For several of my students, format determines whether the lesson reaches them at all." }
+    ]
+  },
+  {
+    id: "capital",
+    tag: "File 2",
+    title: "Funds of Knowledge and Forms of Capital",
+    text: [
+      "Moll's funds of knowledge and Bourdieu's forms of capital both argue students come to class already resourced. Cultural capital, in Bourdieu's terms, is the knowledge and disposition a family transmits informally.",
+      "My students frequently come with documentation, county placement records, IEP histories from other districts, clinical notes, before I get a chance to form my own observations. Recognizing what a student brings that this documentation does not capture takes deliberate attention."
+    ],
+    tiles: [
+      { label:"File vs. Student", back:"Paperwork always arrives before I do the work of knowing a student directly." },
+      { label:"Two Kinds of Capital", back:"What looks like a student lacking capital is usually a school failing to recognize the capital she inherently possesses." }
+    ]
+  },
+  {
+    id: "hiphop",
+    tag: "File 3",
+    title: "Hip Hop and Culturally Sustaining Engagement",
+    text: [
+      "This module's hip hop activity draws a line between a lesson that references hip hop as decoration and one grounded in the form's actual logic, rhythm, sampling, wordplay. However, my background taught me to engineer engagement through structure and stakes, agendas, incentives, deadlines.",
+      "This module pushed me to ask whether a student's own cultural material can do the same work in a math or science lesson, sampling and rhythm used directly for pattern recognition, for instance. I have not designed a full lesson on this logic yet."
+    ],
+    tiles: [
+      { label:"Decoration vs. Logic", back:"Sampling and rhythm work as thinking tools students use outside my classroom." },
+      { label:"Stakes vs. Culture", back:"Structure and stakes drive engagement in corporate training. Culture drives it in my classroom." }
+    ]
+  },
+  {
+    id: "language",
+    tag: "File 4",
+    title: "Language, Culture, and the Breakout",
+    text: [
+      "The language and culture breakout frames a student's home language as one of the tools she thinks in when she approaches content. In Madrid, I was the one without the language, reading context and depending on other people's goodwill to be understood.",
+      "This experience gave me direct insight into what English learners and my students with limited academic vocabulary work through, though I do not assume the two experiences match. A student going quiet during a language-heavy task could signal regulation, resistance, translation load, or disengagement, four different states that look identical from a distance. Telling them apart requires watching for patterns across more than one instance."
+    ],
+    tiles: [
+      { label:"Madrid, Reversed", back:"Being the one without the language in Madrid gave me a working memory of what silence in a classroom can mean." },
+      { label:"Reading Silence", back:"A quiet student could be in one of four different states, and each needs a different response." }
+    ]
+  },
+  {
+    id: "practice",
+    tag: "File 5",
+    title: "Where Theory Meets Practice",
+    text: [
+      "Circulating catches disengagement early, before it swallows the whole period for a student. This kind of catch comes from attentive teaching as much as from any framework, though the framework gave the catch its significance.",
+      "Students in the two groups I teach arrive at different working levels; instruction has to meet each one there, not at a single grade-level assumption. The two groups run on the same instructional model and still feel like different environments. Some of this difference comes from the particular students in each group, and some from routines I developed and now recognize as culture in the CRTWC sense."
+    ],
+    tiles: [
+      { label:"Catching Early", back:"Circulating means I catch disengagement in the first few minutes, while there is still time to redirect a student before the lesson is over." },
+      { label:"Two Groups, Two Cultures", back:"The same lesson plan produces two different classroom cultures because the students in each group set the tone." }
+    ]
+  },
+  {
+    id: "self",
+    tag: "File 6",
+    title: "Before ROP",
+    text: [
+      "I taught communications to incarcerated men earning their associate degrees before I taught at ROP. This classroom took shape entirely around dignity and second chances and prepared me for this one more than any single course in this credential program has.",
+      "Corporate training honed my ability to size up a group quickly and set clear objectives, though it never taught me to create engagement from a student's own culture. My son is nine. He will not attempt a hard problem unless he trusts that being wrong will cost him nothing. This single truth shapes my classroom more than any theory in this module."
+    ],
+    tiles: [
+      { label:"Dignity First", back:"Teaching men working toward an associate degree while incarcerated taught me dignity comes first before a student needs to earn anything from me." },
+      { label:"My Son", back:"My son guesses out loud on his homework, wrong answer and all, because he knows I will not make him regret it. My students need that same guarantee." }
+    ]
+  }
+];
+
+const tabsEl = document.getElementById('tabs');
+const panelsEl = document.getElementById('panels');
+
+sections.forEach((s, i) => {
+  const tab = document.createElement('div');
+  tab.className = 'tab' + (i===0 ? ' active' : '');
+  tab.textContent = s.title;
+  tab.dataset.target = s.id;
+  tab.addEventListener('click', () => selectTab(s.id));
+  tabsEl.appendChild(tab);
+
+  const panel = document.createElement('div');
+  panel.className = 'panel' + (i===0 ? ' active' : '');
+  panel.id = 'panel-' + s.id;
+
+  const textHtml = s.text.map(p => `<p>${p}</p>`).join('');
+
+  const tilesHtml = s.tiles.map(t => `
+    <div class="tile" data-tile>
+      <div class="tile-inner">
+        <div class="face front">
+          <span class="prompt-label">${t.label}</span>
+          <span class="flip-hint">Flip ▸</span>
+        </div>
+        <div class="face back">${t.back}</div>
+      </div>
+    </div>
+  `).join('');
+
+  panel.innerHTML = `
+    <span class="file-tag">${s.tag}</span>
+    <h2>${s.title}</h2>
+    <div class="reflection-text">${textHtml}</div>
+    <div class="aha-label">Aha moments</div>
+    <div class="tiles">${tilesHtml}</div>
+  `;
+  panelsEl.appendChild(panel);
+});
+
+function selectTab(id){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.target === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+}
+
+panelsEl.addEventListener('click', (e) => {
+  const tile = e.target.closest('[data-tile]');
+  if(tile) tile.classList.toggle('flipped');
+});
+</script>
+</body>
+</html>
