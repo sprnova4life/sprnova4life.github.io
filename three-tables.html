@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Nova Coffron">
+<title>Three Tables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+
+:root{
+  --paper:#f5f7f6; --grid:#e3e9e7; --ink:#1d2a33; --muted:#566670;
+  --line:#cdd6d3; --card:#ffffff; --saffron:#c9821a; --saffron-soft:#f6e7cc;
+  --pine:#2f6b5e; --pine-soft:#dcebe6; --dot:#c9821a;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#141b20; --grid:#1c252b; --ink:#e7ece9; --muted:#9fb0b6;
+  --line:#2e3a41; --card:#1a2329; --saffron:#e7a646; --saffron-soft:#3a2d17;
+  --pine:#7cc2ad; --pine-soft:#1d3530; --dot:#e7a646; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#141b20; --grid:#1c252b; --ink:#e7ece9; --muted:#9fb0b6;
+  --line:#2e3a41; --card:#1a2329; --saffron:#e7a646; --saffron-soft:#3a2d17;
+  --pine:#7cc2ad; --pine-soft:#1d3530; --dot:#e7a646; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.12rem;line-height:1.65;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;}
+.wrap{max-width:46rem;margin:0 auto;padding-inline:20px;padding-block:3rem 4rem}
+.eyebrow,.label{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2.6rem,8vw,4.2rem);margin-top:.4rem}
+.question{font-style:italic;font-size:1.25rem;color:var(--muted);margin:.6rem 0 0}
+.byline{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:1rem}
+p{margin:0 0 1.05rem}
+header{margin-bottom:2.2rem}
+
+.map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:2rem 0 2.6rem}
+.station{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.4rem;text-align:center;
+  padding:14px 8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);transition:transform .2s,border-color .2s}
+.station:hover{transform:translateY(-3px);border-color:var(--saffron)}
+.station:focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
+.station svg{width:100%;max-width:120px;height:auto}
+.station .n{font-family:var(--display);font-size:1rem;line-height:1.2}
+.station .where{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:.06em}
+
+section{margin-top:3.2rem;scroll-margin-top:1.5rem}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--line)}
+.sec-head svg{width:64px;flex:none}
+h2{font-size:clamp(1.7rem,4.5vw,2.2rem)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:.4rem 0 0}
+.chip{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--pine-soft);color:var(--pine)}
+
+.model{margin:1.6rem 0 1.8rem;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.model h3{font-size:1.15rem;margin-bottom:.2rem}
+.model .note{font-size:.95rem;color:var(--muted);margin:0 0 1rem}
+
+.nw-controls{display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap}
+.nw-controls input{flex:1;min-width:160px;accent-color:var(--saffron)}
+.nw-num{font-family:var(--display);font-size:2.4rem;min-width:2.5ch;font-variant-numeric:tabular-nums}
+.nw-rows{display:grid;gap:8px}
+.nw-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--paper)}
+.nw-lang{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nw-word{font-size:1.15rem;min-width:0}
+.nw-word small{display:block;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.tag{font-family:var(--mono);font-size:.68rem;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.tag.yes{background:var(--pine-soft);color:var(--pine)}
+.tag.no{background:var(--saffron-soft);color:var(--saffron)}
+
+.db-rule{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.btn{all:unset;cursor:pointer;font-family:var(--mono);font-size:.8rem;padding:8px 12px;border-radius:8px;border:1px solid var(--line);color:var(--ink);background:var(--paper)}
+.btn:hover{border-color:var(--saffron)}
+.btn:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+.btn[aria-pressed="true"]{background:var(--saffron);color:var(--card);border-color:var(--saffron)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.boxes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.box{border:2px solid var(--ink);border-radius:6px;aspect-ratio:1/1;max-width:100%;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:5px;padding:6px;position:relative}
+.box.flash{animation:flash .45s ease}
+@keyframes flash{0%{background:var(--saffron-soft)}100%{background:transparent}}
+.d{width:12px;height:12px;border-radius:50%;background:var(--dot)}
+.digits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:6px;text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.digits span{font-size:1.3rem}
+.digits small{display:block;font-size:.66rem;color:var(--muted)}
+.db-read{font-family:var(--mono);font-size:.82rem;color:var(--muted);margin-top:.8rem}
+
+.err{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.err button{all:unset;cursor:pointer;text-align:center;padding:10px 6px;border-radius:8px;border:1px solid var(--line);font-family:var(--mono);font-size:.78rem}
+.err button[aria-pressed="true"]{border-color:var(--pine);background:var(--pine-soft);color:var(--pine)}
+.err button:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+.err-out{margin-top:.9rem;font-size:1rem;min-height:3.2em}
+
+.identity{font-family:var(--display);font-size:1.35rem;line-height:1.4;border-left:3px solid var(--saffron);padding:.2rem 0 .2rem 1rem;margin:1.6rem 0}
+
+.questions{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.questions li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.questions li::before{content:"?";font-family:var(--display);font-size:1.4rem;line-height:1.1;color:var(--saffron)}
+
+footer{margin-top:3rem;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+
+@media (max-width:520px){
+  .nw-row{grid-template-columns:minmax(0,1fr) auto}
+  .nw-lang{grid-column:1/-1}
+  .station .where{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Module 8 Reflection · CalStateTEACH</div>
+  <h1>Three Tables</h1>
+  <p class="question">What does it mean to teach math in the 21st century?</p>
+  <div class="byline">Nova Coffron</div>
+</header>
+
+<p>After this module, I would describe teaching math in the 21st century as teaching students to reason through problems and explain why a strategy works, with procedures serving this reasoning. It also means paying attention to the language, culture, and history each student comes with, because those shape whether she sees herself as someone who does math. My thinking on this question took shape around three tables where I have learned math: the kitchen table in the home where I grew up, a desk in Madrid, and the small table where I work beside my students now.</p>
+
+<nav class="map" aria-label="The three tables">
+  <button class="station" data-go="kitchen">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><rect x="30" y="4" width="16" height="18" rx="3" fill="none" stroke="var(--saffron)" stroke-width="2.5"/><rect x="33" y="1" width="10" height="4" fill="var(--saffron)"/><path d="M62 18 l22 0 l-4 4 l-14 0z" fill="var(--pine)"/><circle cx="73" cy="12" r="5" fill="none" stroke="var(--pine)" stroke-width="2"/></svg>
+    <span class="n">The Kitchen Table</span><span class="where">Math history</span>
+  </button>
+  <button class="station" data-go="madrid">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><rect x="34" y="8" width="44" height="14" rx="1" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><text x="56" y="19" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="var(--saffron)">ñ 16</text></svg>
+    <span class="n">The Desk in Madrid</span><span class="where">Language</span>
+  </button>
+  <button class="station" data-go="classroom">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><circle cx="36" cy="16" r="5" fill="var(--saffron)"/><circle cx="49" cy="16" r="5" fill="var(--saffron)"/><circle cx="62" cy="16" r="5" fill="var(--pine)"/><circle cx="75" cy="16" r="5" fill="var(--pine)"/><circle cx="88" cy="16" r="5" fill="var(--saffron)"/></svg>
+    <span class="n">The Table in My Classroom</span><span class="where">Identity</span>
+  </button>
+</nav>
+
+<section id="kitchen">
+  <div class="sec-head">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><rect x="30" y="4" width="16" height="18" rx="3" fill="none" stroke="var(--saffron)" stroke-width="2.5"/><rect x="33" y="1" width="10" height="4" fill="var(--saffron)"/></svg>
+    <div><h2>The Kitchen Table</h2>
+    <div class="chips"><span class="chip">My math history</span><span class="chip">Gender · class · culture</span><span class="chip">Aha moment</span></div></div>
+  </div>
+  <p>I grew up off grid in a household shaped by my mother's Amish Mennonite tradition. We had little money, although my parents refused outside assistance on principle. Work in our home followed strict gender lines. Women sewed, cooked, and canned, while men handled repairs, construction, and anything requiring calculation. Mathematics belonged on the men's side of that line.</p>
+  <p>Revisiting Samir's case produced my first "aha" moment of the module. Moll and his colleagues describe funds of knowledge as the skills and practices a household relies on to function. Looking back at my own household through this lens, I can see the women did math constantly. Sewing from a pattern requires measuring, scaling, and working with fractions of an inch. Canning depends on ratios, volume, and timing. Nobody called any of it math, because math was defined as men's work.</p>
+  <p>School math looked nothing like my mother's kitchen. I remember memorizing procedures under pressure. The anxiety is clearer in my memory than any single lesson. No teacher showed me how one idea connected to the next. I worked out those connections as an adult, partly through my husband, whose curiosity about how things work made math interesting to me. This history shapes how I teach. I know what it feels like to face a problem I cannot yet solve and believe it says something permanent about my ability. Because of this, I address anxiety with my students before we begin a task, through a brief check-in and a plain explanation of how stress affects thinking.</p>
+</section>
+
+<section id="madrid">
+  <div class="sec-head">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><rect x="34" y="8" width="44" height="14" rx="1" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><text x="56" y="19" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="var(--saffron)">ñ 16</text></svg>
+    <div><h2>The Desk in Madrid</h2>
+    <div class="chips"><span class="chip">Language</span><span class="chip">Aha moment</span><span class="chip">My students</span></div></div>
+  </div>
+  <p>Language became the second "aha" of the module. While preparing my ShowMe video for parents, I compared how English, Chinese, and Spanish form number words. Chinese states the structure of base ten out loud, so eleven is spoken as "ten-one." Spanish becomes regular partway through the teens, since dieciséis combines ten and six. English conceals the pattern behind words like eleven and twelve. A child learning to count in Chinese hears place value each time she counts past ten.</p>
+
+  <div class="model" aria-labelledby="nw-title">
+    <h3 id="nw-title">Counting past ten in three languages</h3>
+    <p class="note">Move the slider to see which languages say the ten out loud.</p>
+    <div class="nw-controls">
+      <span class="nw-num" id="nw-num">11</span>
+      <label class="label" for="nw-range" style="position:absolute;left:-9999px">Number</label>
+      <input type="range" id="nw-range" min="11" max="19" value="11">
+    </div>
+    <div class="nw-rows">
+      <div class="nw-row"><span class="nw-lang">English</span><span class="nw-word" id="w-en"></span><span class="tag" id="t-en"></span></div>
+      <div class="nw-row"><span class="nw-lang">Spanish</span><span class="nw-word" id="w-es"></span><span class="tag" id="t-es"></span></div>
+      <div class="nw-row"><span class="nw-lang">Chinese</span><span class="nw-word" id="w-zh"></span><span class="tag" id="t-zh"></span></div>
+    </div>
+  </div>
+
+  <p>My time in Madrid comes to mind here, since numbers were one of the first places where Spanish slowed my thinking. I had to translate before I could calculate. My students face something similar with the language of math. Many of them had interrupted schooling, so their struggles often trace to limited exposure to academic vocabulary. A student who hesitates over a word like "decompose" or "equivalent" may still understand the idea well. Sentence stems from this module's Math Literacy chart, such as "I believe my answer is correct because…," allow students to show reasoning they could not otherwise put into words.</p>
+</section>
+
+<section id="classroom">
+  <div class="sec-head">
+    <svg viewBox="0 0 120 70" aria-hidden="true"><rect x="10" y="22" width="100" height="10" rx="2" fill="var(--ink)"/><rect x="18" y="32" width="6" height="34" fill="var(--ink)"/><rect x="96" y="32" width="6" height="34" fill="var(--ink)"/><circle cx="36" cy="16" r="5" fill="var(--saffron)"/><circle cx="49" cy="16" r="5" fill="var(--saffron)"/><circle cx="62" cy="16" r="5" fill="var(--pine)"/><circle cx="75" cy="16" r="5" fill="var(--pine)"/><circle cx="88" cy="16" r="5" fill="var(--saffron)"/></svg>
+    <div><h2>The Table in My Classroom</h2>
+    <div class="chips"><span class="chip">Greatest impact</span><span class="chip">Math identity</span><span class="chip">Connections to my students</span></div></div>
+  </div>
+  <p>The experience with the greatest impact on me was Manes's Dots and Boxes activity. The model follows a single rule: two dots in one box explode into one dot in the box to the left. A learner who follows the rule long enough discovers binary and then base ten without anyone announcing either. Working through it as a learner, I saw the place value system I memorized as a child make sense in a new way.</p>
+
+  <div class="model" aria-labelledby="db-title">
+    <h3 id="db-title">Dots and Boxes</h3>
+    <p class="note">Add dots one at a time and watch the rule work. Switch the rule to see base ten appear.</p>
+    <div class="db-rule" role="group" aria-label="Exploding rule">
+      <button class="btn" id="r2" aria-pressed="true">1 ← 2 rule</button>
+      <button class="btn" id="r10" aria-pressed="false">1 ← 10 rule</button>
+      <button class="btn primary" id="add">Add a dot</button>
+      <button class="btn" id="add5">Add five</button>
+      <button class="btn" id="clear">Clear</button>
+    </div>
+    <div class="boxes" id="boxes"></div>
+    <div class="digits" id="digits"></div>
+    <div class="db-read" id="db-read" aria-live="polite"></div>
+  </div>
+
+  <p>Manes also distinguishes an exercise, which practices a known procedure, from a problem, where the learner does not yet know the path forward. Much of my students' independent work is exercise. IXL is valuable for practice and diagnostic data, although exercises alone can teach a student math is a checklist of procedures. I want problems to be a regular part of my students' week.</p>
+  <p>The IRIS case study on error analysis confirmed a habit from my own practice. Scoring Shayla's fraction work digit by digit revealed a consistent pattern in her errors. Sorting errors into factual, procedural, and conceptual types tells me which kind of reteaching a student needs. A procedural error usually calls for reteaching the steps with guided practice. A conceptual error asks for more, since the student needs a visual model or a new representation before the procedure will make sense to her.</p>
+
+  <div class="model" aria-labelledby="err-title">
+    <h3 id="err-title">Three kinds of error</h3>
+    <p class="note">Select an error type to see the reteaching response it points to.</p>
+    <div class="err" role="group" aria-label="Error types">
+      <button data-e="factual" aria-pressed="false">Factual</button>
+      <button data-e="procedural" aria-pressed="true">Procedural</button>
+      <button data-e="conceptual" aria-pressed="false">Conceptual</button>
+    </div>
+    <p class="err-out" id="err-out" aria-live="polite"></p>
+  </div>
+
+  <p class="identity">The math identity I want my students to develop is one where they see themselves as people who can reason through an unfamiliar problem and explain why their strategy works.</p>
+  <p>Process praise, from the APA reading, supports this directly. When I comment on the specific strategy a student used, she has something concrete to repeat. For students whose lives have had little predictability, math can also be a domain where careful reasoning produces a result they can check and trust.</p>
+  <p>My own history connects to my students in specific ways. My students are girls, so my childhood belief about math and gender has a direct bearing on my teaching each day. I watch my habits for it, including how long I wait for an answer and which student receives the harder problem. Class played a part in my learning as well, through a household that made do with little. Several of my students come from economic hardship. I catch myself assuming instability at home makes math harder to grasp. The Samir case challenges this assumption. Some of my students manage money from part-time jobs or track their balance of student dollars in our classroom reward system. I want to connect this math, which they do with confidence, to the work we do in class. Race played the quietest role in my own math learning, since it was rarely discussed where I grew up. Stinson (2004) traces how mathematics has historically sorted students by race, gender, and class, so I pay attention to how quickly a label or a placement can follow a student.</p>
+</section>
+
+<section id="questions">
+  <div class="sec-head" style="display:block">
+    <h2>Questions Still Open</h2>
+  </div>
+  <p>Several questions surfaced for me during this module:</p>
+  <ul class="questions">
+    <li><span>How can I bring more problems into a self-paced model when group dynamics change week to week and partner work is not always possible?</span></li>
+    <li><span>How do I assess conceptual understanding when most of my data comes from a platform that measures procedure?</span></li>
+    <li><span>How can I learn about the math my students do outside school when many of them are guarded about home?</span></li>
+    <li><span>Where does my own math anxiety still influence my teaching in ways I have not yet noticed?</span></li>
+  </ul>
+</section>
+
+<footer>Nova Coffron · Module 8, Section 17 Reflection</footer>
+</div>
+
+<script>
+(function(){
+
+  document.querySelectorAll('.station').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.dataset.go);
+      if(t) t.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    });
+  });
+
+  var en={11:'eleven',12:'twelve',13:'thirteen',14:'fourteen',15:'fifteen',16:'sixteen',17:'seventeen',18:'eighteen',19:'nineteen'};
+  var es={11:['once','no ten in the word'],12:['doce','no ten in the word'],13:['trece','no ten in the word'],14:['catorce','no ten in the word'],15:['quince','no ten in the word'],16:['dieciséis','ten and six'],17:['diecisiete','ten and seven'],18:['dieciocho','ten and eight'],19:['diecinueve','ten and nine']};
+  var zhC={11:'十一',12:'十二',13:'十三',14:'十四',15:'十五',16:'十六',17:'十七',18:'十八',19:'十九'};
+  var zhP={11:'shí yī',12:'shí èr',13:'shí sān',14:'shí sì',15:'shí wǔ',16:'shí liù',17:'shí qī',18:'shí bā',19:'shí jiǔ'};
+  var ones=['','one','two','three','four','five','six','seven','eight','nine'];
+  var range=document.getElementById('nw-range');
+  function tag(el,yes){el.textContent=yes?'Says the ten':'Hides the ten';el.className='tag '+(yes?'yes':'no');}
+  function renderNW(){
+    var n=+range.value;
+    document.getElementById('nw-num').textContent=n;
+    document.getElementById('w-en').innerHTML=en[n]+'<small>'+(n<13?'no ten in the word':'"-teen" after the ones')+'</small>';
+    document.getElementById('w-es').innerHTML=es[n][0]+'<small>'+es[n][1]+'</small>';
+    document.getElementById('w-zh').innerHTML=zhC[n]+' · '+zhP[n]+'<small>ten-'+ones[n-10]+'</small>';
+    tag(document.getElementById('t-en'),false);
+    tag(document.getElementById('t-es'),n>=16);
+    tag(document.getElementById('t-zh'),true);
+  }
+  range.addEventListener('input',renderNW); renderNW();
+
+  var base=2, boxes=[0,0,0,0], total=0, busy=false;
+  var boxesEl=document.getElementById('boxes'), digitsEl=document.getElementById('digits'), readEl=document.getElementById('db-read');
+  function place(i){return Math.pow(base,3-i);}
+  function render(flashIdx){
+    boxesEl.innerHTML=''; digitsEl.innerHTML='';
+    boxes.forEach(function(c,i){
+      var b=document.createElement('div'); b.className='box'+(i===flashIdx?' flash':'');
+      b.setAttribute('aria-label','Box worth '+place(i)+', '+c+' dots');
+      for(var k=0;k<c;k++){var d=document.createElement('span');d.className='d';b.appendChild(d);}
+      boxesEl.appendChild(b);
+      var g=document.createElement('div'); g.innerHTML='<span>'+c+'</span><small>'+place(i)+'s</small>';
+      digitsEl.appendChild(g);
+    });
+    var max=Math.pow(base,4)-1;
+    readEl.textContent='Dots added: '+total+'  ·  Boxes show: '+boxes.join('')+(total>max?'  ·  This machine is full, so clear it to start again.':'');
+  }
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+  async function addDots(n){
+    if(busy) return; busy=true;
+    var fast=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    for(var j=0;j<n;j++){
+      if(total>=Math.pow(base,4)-1) break;
+      boxes[3]++; total++; render(); if(!fast) await sleep(220);
+      for(var i=3;i>0;i--){
+        if(boxes[i]>=base){boxes[i]-=base;boxes[i-1]++;render(i-1);if(!fast) await sleep(380);}
+      }
+    }
+    busy=false; render();
+  }
+  function setBase(b){
+    base=b; boxes=[0,0,0,0]; total=0;
+    document.getElementById('r2').setAttribute('aria-pressed',b===2);
+    document.getElementById('r10').setAttribute('aria-pressed',b===10);
+    render();
+  }
+  document.getElementById('r2').onclick=function(){if(!busy)setBase(2);};
+  document.getElementById('r10').onclick=function(){if(!busy)setBase(10);};
+  document.getElementById('add').onclick=function(){addDots(1);};
+  document.getElementById('add5').onclick=function(){addDots(5);};
+  document.getElementById('clear').onclick=function(){if(!busy)setBase(base);};
+
+  boxes=[0,1,1,0]; total=6; render();
+
+  var errText={
+    factual:'A factual error points to a specific fact the student has not yet committed to memory, so targeted practice with this fact is the response.',
+    procedural:'A procedural error usually calls for reteaching the steps with guided practice.',
+    conceptual:'A conceptual error asks for more, since the student needs a visual model or a new representation before the procedure will make sense to her.'
+  };
+  var errBtns=document.querySelectorAll('.err button'), errOut=document.getElementById('err-out');
+  function setErr(k){errBtns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.e===k);});errOut.textContent=errText[k];}
+  errBtns.forEach(function(b){b.onclick=function(){setErr(b.dataset.e);};});
+  setErr('procedural');
+})();
+</script>
+</body>
+</html>
